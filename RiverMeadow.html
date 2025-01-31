@@ -512,12 +512,12 @@ Settings" and provide an instance name of your choice as per image below
 <li>Wait for the “<strong>Appliance Readiness Status</strong>” to be shown as “<strong>Ready</strong>” (refresh the page if status is not updated automatically in 3-5 minutes)</li>
 </ol>
 <p><br><img src="RiverMeadow_files/20241115_062809_blobid8.png" alt=""><br><span style=""><strong>IMPORTANT : DO NOT MISS THIS STEP and EXECUTE IMMEDIATELY ONCE THE SECURITY GROUP IS CREATED</strong></span><br><br><strong>As
- RiverMeadow migration appliance is deployed to the AWS Burner account, 
+ RiverMeadow migration appliance is deployed to the Customer's AWS account, 
 it automatically creates a security group with name similar to 
 “RM-CA-vpc-xxxxxx” and with inbound rules as given below with source as 
 0.0.0.0/0 ( 4 rules - Time exceeded, Destination unreachable, Echo 
-request &amp; Echo reply). The burner account info security policy does 
-not allow source as 0.0.0.0/0 which will lead to burner account being 
+request &amp; Echo reply). The Customer's AWS account info security policy does 
+not allow source as 0.0.0.0/0 which will lead to the Customer's AWS account being 
 auto closed.</strong><br><br><img src="RiverMeadow_files/20241115_062809_blobid9.png" alt="">To
  avoid this issue, please modify the inbound rules with source as 
 0.0.0.0/0 and replace with your source vpc subnet (us-east-2) CIDR, 
