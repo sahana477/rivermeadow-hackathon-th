@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="en" data-lt-installed="true"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Migratapalooza : Cutover Hackathon Scenario - Runbook - Documentation</title>
+   
+    <!-- Tailwind CSS -->
+    <link href="Cutover_files/tailwind.min.css" rel="stylesheet">
+   
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+   
+    <!-- TinyMCE -->
+    <script src="Cutover_files/tinymce.min.js"></script>
+   
+    <!-- Editor Initialization -->
+    <script src="Cutover_files/editor-init.js"></script>
+   
+    <!-- Content Rendering Styles -->
+    <style>
+        /* Content Rendering Styles */
+        .content-render h1 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: #252F3E;
+            margin-bottom: 1rem;
+        }
+        .content-render h2 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: #252F3E;
+            margin-bottom: 0.875rem;
+        }
+        .content-render h3, .content-render h4, .content-render h5, .content-render h6 {
+            color: #252F3E;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+        .content-render p {
+            margin-bottom: 1rem;
+            line-height: 1.7;
+            color: #252F3E;
+        }
+        .content-render ul {
+            list-style-type: disc;
+            color: #252F3E;
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .content-render ol {
+            list-style-type: decimal;
+            color: #252F3E;
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .content-render pre, .content-render code {
+            background-color: #f3f4f6;
+            padding: 1rem;
+            border-radius: 0.375rem;
+            margin-bottom: 1rem;
+            color: #252F3E;
+        }
+        .content-render blockquote {
+            border-left-width: 4px;
+            border-color: #FF9900;
+            padding-left: 1rem;
+            font-style: italic;
+            color: #252F3E;
+            margin: 1rem 0;
+        }
+        .content-render img {
+            max-width: 100%;
+            height: auto;
+            margin: 1rem 0;
+        }
+        .content-render table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        .content-render th,
+        .content-render td {
+            border: 1px solid #e5e7eb;
+            padding: 0.75rem;
+            color: #252F3E;
+        }
+        .content-render th {
+            background-color: #f9fafb;
+            font-weight: 600;
+            color: #252F3E;
+        }
+        .content-render a {
+            color: #FF9900;
+            text-decoration: underline;
+        }
+        .content-render a:hover {
+            color: #252F3E;
+        }
+    </style>
+
+    <!-- Layout Styles -->
+    <style>
+        /* Sidebar styles */
+        .sidebar-fixed {
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            overflow-y: auto;
+            background-color: #252F3E;
+            color: white;
+        }
+       
+        /* Sidebar link styles */
+        .sidebar-fixed a {
+            color: white;
+        }
+       
+        /* Sidebar hover styles */
+        .sidebar-fixed a:hover {
+            background-color: #FF9900;
+        }
+
+        /* Mobile Navigation Button */
+        #mobileMenuButton i {
+            color: #252F3E;
+        }
+       
+        /* Toast notifications */
+        .toast {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 100;
+            background-color: white;
+            color: #252F3E;
+            animation: slideIn 0.3s ease-in-out;
+        }
+       
+        /* Button styling */
+        button {
+            background-color: #FF9900;
+            color: white;
+        }
+
+        /* Footer Styling */
+        footer {
+            background-color: #252F3E;
+            color: white;
+        }
+    </style>
+   
+    
+<style>
+    .toc-link {
+        transition: all 0.2s ease-in-out;
+    }
+
+    .toc-link:hover {
+        padding-left: 0.5rem;
+    }
+
+    @media print {
+        .no-print {
+            display: none !important;
+        }
+    }
+
+    /* Custom styles for content */
+    .markdown-content {
+        color: inherit;
+    }
+
+    .markdown-content [style*="color"] {
+        color: inherit !important;
+    }
+
+    .markdown-content span[style*="color:"] {
+        color: attr(style color) !important;
+    }
+
+    /* Sidebar transition styles */
+    .sidebar-transition {
+        transition: width 0.3s ease-in-out;
+        margin-right: 0.5rem;
+    }
+
+    .content-transition {
+        transition: all 0.3s ease-in-out;
+    }
+    
+    /* Make sure colored text remains visible */
+    [style*="color:"] {
+        color: var(--custom-color, inherit) !important;
+    }
+
+    /* Preserve background colors */
+    [style*="background-color:"] {
+        background-color: var(--custom-bg-color, inherit) !important;
+    }
+
+    /* Enhanced layout styles */
+    #mainContent {
+        transition: all 0.3s ease-in-out;
+        width: calc(100% - 16rem);
+    }
+
+    #mainContent.expanded {
+        width: calc(100% - 1.5rem);
+    }
+
+    .section-container {
+        max-width: none !important;
+        width: 100% !important;
+    }
+
+    .prose {
+        max-width: none !important;
+    }
+
+    .section {
+        padding: 1rem !important;
+    }
+
+    @media (min-width: 1024px) {
+        .section-content {
+            width: 100% !important;
+            max-width: none !important;
+        }
+    }
+
+    .content-wrapper {
+        width: 100%;
+        transition: width 0.3s ease-in-out;
+    }
+
+    .toc-expanded .content-wrapper {
+        width: calc(100% - 16rem);
+    }
+
+    .toc-collapsed .content-wrapper {
+        width: calc(100% - 1.5rem);
+    }
+    
+    /* Section spacing and width optimization */
+    .section-container {
+        margin: 0.5rem 0;
+    }
+
+    .section-content {
+        width: 100%;
+    }
+
+    /* Content container optimization */
+    .content-max-width {
+        max-width: none;
+        width: 100%;
+        margin: 0;
+        padding: 0 1rem;
+    }
+</style>
+
+<style>
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes fadeOut {
+        from { opacity: 1; transform: translateY(0); }
+        to { opacity: 0; transform: translateY(10px); }
+    }
+    
+    .animate-fade-in {
+        animation: fadeIn 0.3s ease-out forwards;
+    }
+    
+    .animate-fade-out {
+        animation: fadeOut 0.3s ease-out forwards;
+    }
+</style></head>
+
+<body class="bg-gray-100 toc-expanded" sapling-installed="true">
+    <!-- Mobile Navigation Toggle -->
+    <div class="lg:hidden">
+        <button id="mobileMenuButton" class="p-4 focus:outline-none">
+            <i class="fas fa-bars text-2xl"></i>
+        </button>
+    </div>
+
+    <!-- Sidebar Navigation -->
+    <nav class="w-64 sidebar-fixed hidden lg:block">
+        <div class="p-6">
+            <div class="flex items-center space-x-3 cursor-not-allowed opacity-50">
+                <i class="fas fa-book text-2xl"></i>
+                <span class="text-xl font-bold">Documentation</span>
+            </div>
+        </div>
+       
+        <div class="px-4 py-2">
+            <div class="relative">
+                <input type="text" id="searchInput" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Search pages...">
+                <i class="fas fa-search absolute right-3 top-3 text-gray-400"></i>
+            </div>
+        </div>
+       
+        <div class="mt-4">
+            <div class="px-4 py-2 text-sm font-medium uppercase">
+                Navigation
+            </div>
+            <ul class="mt-2">
+                <li>
+                    <a href="index.html" class="px-6 py-2 flex items-center space-x-3 hover:bg-gray-100">
+                        <i class="fas fa-home"></i>
+                        <span>Home</span>
+                </a>
+                </li>
+                <li>
+                    <a href="admin.html" class="px-6 py-2 flex items-center space-x-3 hover:bg-gray-100">
+                        <i class="fas fa-cog"></i>
+                        <span>Admin</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="lg:ml-64">
+        <div class="container mx-auto px-4 py-8">
+            <!-- Flash Messages -->
+            
+                
+            
+
+            <!-- Page Content -->
+            
+<div class="flex min-h-screen w-full gap-0">
+    <!-- Collapsible Sidebar -->
+    <div id="tocSidebar" class="sidebar-transition bg-white shadow-md h-screen sticky top-0 overflow-y-auto" style="width: 16rem;">
+        <div class="relative p-4">
+            <!-- Toggle Button -->
+            <button id="toggleToc" class="absolute -right-3 top-4 bg-blue-500 text-white p-4 rounded-full shadow-md hover:bg-gray-50 z-10" onclick="toggleToc()">
+                <i id="toggleIcon" class="fas fa-chevron-left"></i>
+            </button>
+
+            <div id="tocContent">
+                <h2 class="text-lg font-semibold mb-4">Table of Contents</h2>
+                
+                    <a href="#section-27" class="toc-link block text-sm text-gray-600 hover:text-blue-600 py-1">
+                        Element 1: TCO Calculation
+                    </a>
+                
+                    <a href="#section-28" class="toc-link block text-sm text-gray-600 hover:text-blue-600 py-1">
+                        Element 2:  Proposal for Migration 
+                    </a>
+                
+                    <a href="#section-29" class="toc-link block text-sm text-gray-600 hover:text-blue-600 py-1">
+                        Element 3: Runbook Automation using Cutover
+                    </a>
+                
+
+                <div class="mt-6 pt-6 border-t">
+                    <h3 class="text-sm font-medium text-gray-500 mb-3">Page Actions</h3>
+                    <div class="space-y-2">
+                        <button onclick="window.print()" class="w-full flex items-center px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 rounded">
+                            <i class="fas fa-print mr-2"></i> Print Page
+                        </button>
+                        <button onclick="copyPageLink()" class="w-full flex items-center px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 rounded">
+                            <i class="fas fa-link mr-2"></i> Copy Link
+                        </button>
+                        
+                        <button class="w-full flex items-center px-4 py-2 text-sm text-gray-400 bg-gray-200 rounded cursor-not-allowed" disabled>
+                            <i class="fas fa-edit mr-2"></i> Edit Page
+                        </button>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Main Content Area -->
+    <div id="mainContent" class="flex-1 content-transition" style="width: calc(100% - 16rem);">
+        <div class="content-max-width">
+            <!-- Page Header -->
+            <div class="mb-4">
+                <div class="flex items-center justify-between mb-3">
+                    <h1 class="text-4xl font-bold text-gray-900">Migratapalooza : Cutover Hackathon Scenario - Runbook</h1>
+                    <div class="lg:hidden relative">
+                        <button onclick="toggleMobileMenu()" class="text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-ellipsis-v text-xl"></i>
+                        </button>
+                        <div id="mobileMenu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
+                            <button onclick="window.print()" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                <i class="fas fa-print mr-2"></i> Print Page
+                            </button>
+                            <button onclick="copyPageLink()" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                <i class="fas fa-link mr-2"></i> Copy Link
+                            </button>
+                            
+                                <a href="http://44.210.102.246:5000/page/cutover/edit" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    <i class="fas fa-edit mr-2"></i> Edit Page
+                                </a>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center text-sm text-gray-500 space-x-4">
+                    <span>Updated November 18, 2024</span>
+                    <span>3 sections</span>
+                    
+                        <span>21 views</span>
+                    
+                </div>
+
+                
+                    <div class="mt-3 text-gray-600">
+                        This run book provides you guidance to execute to the Cutover scenario during the Migratapalooza event 
+                    </div>
+                
+
+                
+            </div>
+
+            <!-- Table of Contents for Mobile -->
+            <div class="lg:hidden mb-6 no-print">
+                <h2 class="text-lg font-medium mb-3">Table of Contents</h2>
+                
+                    <a href="#section-27" class="block py-2 text-gray-600 hover:text-blue-600">
+                        Element 1: TCO Calculation
+                    </a>
+                
+                    <a href="#section-28" class="block py-2 text-gray-600 hover:text-blue-600">
+                        Element 2:  Proposal for Migration 
+                    </a>
+                
+                    <a href="#section-29" class="block py-2 text-gray-600 hover:text-blue-600">
+                        Element 3: Runbook Automation using Cutover
+                    </a>
+                
+            </div>
+
+            <!-- Sections Content -->
+            <div class="space-y-4">
+                
+                    <div id="section-27" class="section bg-white rounded-lg shadow-md overflow-hidden w-full">
+                        <div class="p-4">
+                            <div class="flex items-center justify-between cursor-pointer select-none" onclick="toggleSection('section-27')">
+                                <h2 class="text-2xl font-bold text-gray-900">Element 1: TCO Calculation</h2>
+                                <i class="fas fa-chevron-down text-gray-500 transform transition-transform duration-200" id="icon-section-27"></i>
+                            </div>
+
+                            <div id="content-section-27" class="section-content mt-4 prose max-w-none markdown-content content-render" style="display: none; width: 1208px;">
+                                <p>Big Bank would like to see a 
+comparison of their current on premises cost vs. what they would spend 
+by moving to AWS. They have used ModelizeIT to do an automatic discovery
+ of their entire infrastructure and have provided the export to us. <br><br>For the TCO calculation recommend using the MPA tool: <a href="https://mpa.accelerate.amazonaws.com/">https://mpa.accelerate.amazonaws.com/</a> (Access via employee SSO)</p>
+<p>Locate the assessment "Migratapalooza-Bigbank-Assessment-TeamX".</p>
+<ol>
+<li style="">Exercise: Explore different assumptions for the calculation of the TCO for the scenario provided<br><br></li>
+<li style="">Calculate migration recommendation&nbsp;Explore different assumptions for the calculation of migration strategy</li>
+</ol>
+<p style=""><img src="Cutover_files/20241118_071209_blobid0.png" alt="image.png"></p>
+<p style="">&nbsp;</p>
+<p style="">Use the generated reports and insights for your proposal.&nbsp;</p>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div id="section-28" class="section bg-white rounded-lg shadow-md overflow-hidden w-full">
+                        <div class="p-4">
+                            <div class="flex items-center justify-between cursor-pointer select-none" onclick="toggleSection('section-28')">
+                                <h2 class="text-2xl font-bold text-gray-900">Element 2:  Proposal for Migration </h2>
+                                <i class="fas fa-chevron-down text-gray-500 transform transition-transform duration-200" id="icon-section-28"></i>
+                            </div>
+
+                            <div id="content-section-28" class="section-content mt-4 prose max-w-none markdown-content content-render" style="display: none; width: 1208px;">
+                                <p>Big Bank has requested that we 
+provide them a proposal for a complete migration of their infrastructure
+ to AWS. We have conducted an MRA (Migration Readiness Assessment) to 
+evaluate their current state. They would like to move as quickly as 
+possible and will look at modernizing their applications gradually after
+ the initial migration.</p>
+<p><br>We recommend using ProServe’s offering Rapid Migration with Hyper Automation which integrates <a href="http://cutover.com/" target="_blank" rel="noopener">cutover.com</a> for the automation of the migration (see First Call Deck here: <a href="https://aws.highspot.com/items/669ac5bce9467d6b3be42106?lfrm=rhp.3">https://aws.highspot.com/items/669ac5bce9467d6b3be42106?lfrm=rhp.3</a> )</p>
+<p>In the MRA report provided you will find more information about the 
+customer. Identify the areas where they need support for your proposal 
+and how AWS and Cutover solution can help.&nbsp;&nbsp;</p>
+<p>You can use the provided calculator (excel file) to estimate the 
+level of effort for the migration.&nbsp; (Detailed instructions here: <a href="https://w.amazon.com/bin/view/AWS/Teams/Globals/MigrationModernizationCustomerJourneys/RapidMigration/SalesPlaybook/#HPricingEstimator">https://
+w.amazon.com/bin/view/AWS/Teams/Globals/
+MigrationModernizationCustomerJourneys/RapidMigration/SalesPlaybook/
+#HPricingEstimator</a> )</p>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div id="section-29" class="section bg-white rounded-lg shadow-md overflow-hidden w-full">
+                        <div class="p-4">
+                            <div class="flex items-center justify-between cursor-pointer select-none" onclick="toggleSection('section-29')">
+                                <h2 class="text-2xl font-bold text-gray-900">Element 3: Runbook Automation using Cutover</h2>
+                                <i class="fas fa-chevron-down text-gray-500 transform transition-transform duration-200" id="icon-section-29"></i>
+                            </div>
+
+                            <div id="content-section-29" class="section-content mt-4 prose max-w-none markdown-content content-render" style="display: none; width: 1208px;">
+                                <p>Big Bank is interested in understanding how they can speed up the migration by using automations. <br><br>Cutover
+ is a SaaS solution that standardizes and automates technology 
+operations processes such as IT and cyber disaster recovery, release 
+management, and cloud migration. It bridges the gap between teams and 
+technology to increase efficiency and reduce risk with automated 
+runbooks. It can integrate with any other solution via APIs to manage 
+processes end to end. <br><br>Rapid Migration with Hyper Automation, is a
+ solution built by AWS ProServe that integrates Cutover with other AWS 
+tools and services to perform automated migrations. It includes an 
+automation library with a set of common rehost patterns that can be 
+customized and extended based on the customer needs. <br><br>RMHA Architecture overview:<br><img src="Cutover_files/20241118_050924_blobid0.png" alt="image.png">In
+ the Cutover instance that you will use for the demo, we have included a
+ sample runbook template for a simplified rehost migration. Due to the 
+time constraints of the event, the tasks from Cutover will not perform 
+the actual migration of servers but just do a connection. The actions 
+performed are controlled by the parameters sent in the custom fields 
+(Automation ID) (Not required for this demo, but further information can
+ be found in the <a href="https://dk-knowledgebase.pages.aws.dev/dk-hyper-automation/User-Guide/Using-And-Deploying-Automations/#using-existing-automations">delivery kit</a>)<br><br><img src="Cutover_files/20241118_070132_image.png"></p>
+<p>&nbsp;</p>
+<p>To prepare the demo follow these steps:</p>
+<h3>Step 1: Access Cutover and visualize the pre-configured Rehost template</h3>
+<ol>
+<li>Access to the cutover instance (access details provided via Email)</li>
+<li>Accept invite and create your password. Login with credential just created</li>
+<li>Click on the existing workspace called “Migratapalooza Group X”</li>
+</ol>
+<p><img src="Cutover_files/20241118_070303_blobid0.png" alt="image.png"></p>
+<p>4. Go to Templates<img src="Cutover_files/20241118_050924_blobid6.png" alt="image.png"></p>
+<p>5. Select the template for Rehost Migration<img src="Cutover_files/20241118_050923_blobid7.png" alt="image.png"></p>
+<p>6.&nbsp;Visualize Template tasks</p>
+<p><span style="">Each item in the template is a runbook task, the icon on the left of the task indicates the task type, as follows:</span></p>
+<ul>
+<li><strong>Circle shape</strong>: a manual task. It requires the user to open/close the task.</li>
+<li><strong>Gear shape</strong>: an automated task. It triggers an 
+automation (in this case connecting to an AWS account) and it will 
+start/close automatically in the <a href="http://cutover.com/">Cutover.com</a> runbook.</li>
+<li><strong>Diamond shape</strong>: a milestone. These milestones will also be tracked in the <a href="http://cutover.com/">Cutover.com</a> dashboards. They require a manual input (user click) for the runbook to move past the milestone step.</li>
+<li><strong>Triangle shape</strong>: a decision point or branching. 
+These tasks require the user to choose a path in the runbook based on a 
+decision (e.g., go/no-go final migration decision)</li>
+</ul>
+<p><img src="Cutover_files/20241118_050923_blobid8.png" alt="image.png"><br>The
+ template that you will find pre-created in cutover is designed to do a 
+Rehost migration from servers an on-premises data center to EC2 
+Instances on AWS. It contains the following tasks (note the description 
+is provided for context and clarity, but the provided runbook for the 
+demo will not perform the actual tasks due to time constraints)</p>
+<ul>
+<li><strong>Import Wave Data</strong><span style=""> </span>will automatically load migration metadata from an input file into the CMF metadata store.</li>
+<li><strong>Install Replication Agents</strong><span style=""> </span>will
+ use a CMF automation to install and configure the MGN agent on each 
+server in this wave, using the supplied server credentials.</li>
+<li><strong>Monitor Data Replication 1</strong><span style=""> </span>will
+ continuously monitor Replication Agent data replication from the 
+on-premises servers to the target Replication Agent replication servers 
+until the copy reaches 100%.</li>
+<li><strong>Ready For Testing </strong><span style="">this is a 
+milestone task, this action needs to be ticked manually and will enable 
+the next set of automated tasks, which will execute without human 
+intervention.</span></li>
+<li><strong><span style="">Validate Launch Template</span></strong><span style="">
+ will use a CMF automation to verify that the AWS Replication Agent 
+launch templates are correct based on the target metadata supplied. For 
+example, the supplied subnets, security groups, and other settings.</span></li>
+<li><strong><span style="">Launch Test Instances</span></strong><span style="">
+ will use a CMF automation to signal AWS Replication Agent to launch a 
+set of test instances in the target subnets, based on the latest 
+snapshot taken.&nbsp;</span></li>
+<li><strong><span style="">Verify Test Instances</span></strong><span style="">
+ will use a CMF automation to determine if all test servers have been 
+converted to EC2 successfully, have booted up and are responsive. Amazon
+ EC2 service has a mechanism to determine if the OS is running and 
+responsive. This is called Instance Status Check, which is leveraged by 
+the automation to determine the instance status. </span></li>
+<li><strong><span style="">Revert Instances status to Ready for Testing</span></strong><span style="">, this CMF automation will revert the status of the Replication Agent service to&nbsp;</span><strong><span style="">Ready for Testing</span></strong><span style="">. Doing so permits to run further tests or move the next phase of cutover.</span></li>
+<li><strong><span style="">Terminate Test Instances</span></strong><span style=""> will use a CMF automation to terminate the recently launched (and verified) test instances.</span></li>
+<li><strong><span style="">Copy post-launch scripts</span></strong><span style="">
+ will copy scripts stored in the CMF Automation server to the source 
+servers. These scripts will be placed in an Replication Agent folder and
+ will be automatically executed by Replication Agent when the target EC2
+ instance starts for the first time post-cutover.</span></li>
+<li><strong><span style="">Monitor Data Replication 2</span></strong><span style="">
+ will continue to monitor data replication from the simulated 
+on-premises servers to the target AWS environment. This will ensure that
+ the continuous data replication is at 100% before moving to the next 
+phase of cutover.</span></li>
+<li><strong><span style="">Mark Ready for Cutover</span></strong><span style="">
+ will use a CMF automation to change the Replication Agent status of the
+ servers, signaling that they are ready to be migrated completely.</span></li>
+<li><strong>Shutdown All Servers</strong><span style=""> </span>will use
+ a CMF automation to shutdown all on-premises servers in the wave, this 
+is in order to ensure a consistent copy of the server in AWS and prevent
+ further changes.</li>
+<li><strong>Launch Cutover Instances</strong><span style=""> </span>will
+ use a CMF automation to signal Replication Agent that cutover instances
+ (i.e., the final copy of the servers) should now be launched in EC2.</li>
+<li><strong>Ready For UAT</strong><span style=""> this is a milestone task, this action needs to be ticked manually.</span></li>
+<li><strong>Perform UAT</strong><span style=""> is a task for manual 
+verification that the migrated servers are accessible. It needs to be 
+ticked manually after testing has been completed.</span></li>
+<li><span style=""> </span><strong>Go Live?</strong><span style=""> 
+branching (or decision) runbook task. You will have to decide which path
+ to abandon. If the testing was successful, proceed to abandon the </span><strong>NO: Rollback</strong><span style=""> path. Otherwise, proceed to abandon the </span><strong>YES: Go live</strong><span style=""> path, as shown below.</span></li>
+<li><strong>Go Live</strong><span style="">. This path will trigger an automation to finalize the migration in AWS MGN, which will conclude the process.</span></li>
+<li><span style=""> </span><strong>End</strong><span style=""> milestone, proceed to to open the AWS Replication Agent console in the workshop AWS Account. Verify the servers status is&nbsp;</span><strong>Cutover complete </strong></li>
+</ul>
+<p>&nbsp;</p>
+<h3>Step 2: Create and execute a runbook based on the existing template</h3>
+<ol>
+<li>Go back to templates overview. Click on the create button at the right to create a new runbook based on the template:<img src="Cutover_files/20241118_050924_blobid9.png" alt="image.png"></li>
+<li>Start Runbook<img src="Cutover_files/20241118_050925_blobid10.png" alt="image.png"></li>
+<li>Execute manual start tasks<img src="Cutover_files/20241118_050925_blobid11.png" alt="image.png"></li>
+<li>Automatic tasks for migration steps will start executing<img src="Cutover_files/20241118_050925_blobid12.png" alt="image.png"></li>
+<li>On breakpoints for manual check, confirm execution<img src="Cutover_files/20241118_050925_blobid13.png" alt="image.png"></li>
+<li>When reaching the task for UAT testing, wait ~ 10 minutes before 
+completing it. This waiting time is meant to represent the time spent in
+ performing the actual test of the migrated workloads<img src="Cutover_files/20241118_050925_blobid14.png" alt="image.png"></li>
+<li>In the Go Live , select abandon for the rollback tasks and continue for the Go Live<img src="Cutover_files/20241118_050925_blobid15.png" alt="image.png"></li>
+<li>Finalize the run-book execution<img src="Cutover_files/20241118_050926_blobid16.png" alt="image.png"></li>
+<li>Go to the post implementation dashbaord and review results</li>
+</ol>
+<p><img src="Cutover_files/20241118_050926_blobid17.png" alt="image.png"><img src="Cutover_files/20241118_050926_blobid18.png" alt="image.png"><img src="Cutover_files/20241118_050926_blobid19.png" alt="image.png"></p>
+<h3>Step 3: Create new integration for automated testing</h3>
+<p>Cutover Integration is used to integrate with tools across ITSM, 
+DevOps, agile, monitoring, automation and collaboration.There are 
+pre-defined integrations (<a class="c-link c-link--underline" href="https://developer.cutover.com/example-integrations" target="_blank" rel="noopener noreferrer">here</a>&nbsp;for more) including EDRS for DR, MGN for migration.<br>For&nbsp;
+ scenario here, you will create a custom integration with AWS lambda 
+which will execute a sample code. In a real scenario, this integration 
+will range from executing scripts/jobs of any scale.</p>
+<ol>
+<li style="">Create a new integration</li>
+</ol>
+<p><img src="Cutover_files/20241118_050926_blobid20.png" alt="image.png"><br><img src="Cutover_files/20241118_050926_blobid21.png" alt="image.png"><br><img src="Cutover_files/20241118_050926_blobid22.png" alt="image.png"><br><br>Name: Test-Automation-API<br>Image url: <a href="https://i.ibb.co/NNYqX4z/migratapalooza.png">https://i.ibb.co/NNYqX4z/migratapalooza.png</a><br><img src="Cutover_files/20241118_050926_blobid23.png" alt="image.png"></p>
+<p>2. Add an integration action to the new integration</p>
+<p><br><img src="Cutover_files/20241118_050927_blobid24.png" alt="image.png">Name: Trigger-Automated-Test<br>Image url: <a href="https://i.ibb.co/NNYqX4z/migratapalooza.png">https://i.ibb.co/NNYqX4z/migratapalooza.png</a><br><br><img src="Cutover_files/20241118_050927_blobid25.png" alt="image.png"><br><br>Token Type: Bearer<br>Token: <code>weiufhpweiufhz98723poujfplwkejhf91238z4</code><br><br><img src="Cutover_files/20241118_050927_blobid26.png" alt="image.png">Request Type: POST<br><br>URL: <a href="https://392q4w0yra.execute-api.us-east-1.amazonaws.com/beta/">https://392q4w0yra.execute-api.us-east-1.amazonaws.com/beta/</a><br><br>Request Header<br><br></p>
+<pre>{<br>    "Content-Type": "application/json"<br>}</pre>
+<p><br>Outbound payload:</p>
+<pre>{<br>  "version": "1.0",<br>  "runbookId": "{{Runbook.id}}",<br>  "runbookName": "{{Runbook.name}}",<br>  "taskId": "{{Task.id}}",<br>  "taskInternalId": "{{Task.internal_id}}",<br>  "taskName": "{{Task.name}}",<br>  "taskAutomationId": "{{CustomField['taskAutomationIdTest']}}",<br>  "wave": "{{CustomField['wave']}}",<br>  "dependencyGroup": "{{CustomField['dependencyGroup']}}",<br>  "maxDuration": "{{CustomField['maxDuration']}}",<br>  "notificationRecipient": "{{CustomField['notificationRecipient']}}",<br> &nbsp;"hackathon": "1"<br>}<br><br></pre>
+<p>Change the value of "hackaton" to the number of the instance you are 
+using. You will see that in the url of the cutover instance that was 
+assigned to you (it is a value between 1 and 4)</p>
+<p><img src="Cutover_files/20241118_081907_image.png"></p>
+<p>&nbsp;</p>
+<p><img src="Cutover_files/20241118_050927_blobid27.png" alt="image.png"><br><br></p>
+<p>3. Create Custom Field</p>
+<p><img src="Cutover_files/20241118_050927_blobid28.png" alt="image.png"><br>Name: taskAutomationIdTest<br><br><img src="Cutover_files/20241118_050928_blobid29.png" alt="image.png"><img src="Cutover_files/20241118_050927_blobid30.png" alt="image.png"><br><img src="Cutover_files/20241118_050928_blobid31.png" alt="image.png"><br><br><br></p>
+<h3>Step 4: Create new runbook and substitute manual testing by automated testing</h3>
+<ol>
+<li style="">Go to templates and create new runbook for the rehost migration template</li>
+</ol>
+<p><img src="Cutover_files/20241118_050928_blobid32.png" alt="image.png"><img src="Cutover_files/20241118_050928_blobid33.png" alt="image.png"></p>
+<p>2. Go to the Ready for UAT step and click con “+” to add a new task and enter task name</p>
+<p><img src="Cutover_files/20241118_050925_blobid34.png" alt="image.png">Name: Automated UAT Testing<br><img src="Cutover_files/20241118_050923_blobid35.png" alt="image.png"></p>
+<p>3. Click on new task to enter the details</p>
+<p>testAutomationIdTest: MIG-TEST-01<br><br><img src="Cutover_files/20241118_050924_blobid36.png" alt="image.png"></p>
+<p>4. Delete the Perform UAT task from the Runbook</p>
+<p><img src="Cutover_files/20241118_050924_blobid37.png" alt="image.png"><br><br><br><br></p>
+<h3>Step 5: Execute the runbook again</h3>
+<p><br>Same instructions as in step 2 - from point 2. This time no 
+waiting for the manual test will be needed (the task will run 
+automatically).</p>
+<p>&nbsp;</p>
+<p>You can use the executed runbook and the dashboard reports in your proposal.</p>
+<p><br><br><br><br></p>
+                            </div>
+                        </div>
+                    </div>
+                
+            </div>
+
+            <div class="flex items-center justify-between text-sm text-gray-500 mt-6">
+                <div>
+                    Last updated: 2024-11-18 09:13
+                </div>
+                <a href="#" class="text-gray-600 hover:text-gray-900">Back to top</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="mt-8 lg:ml-64">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex justify-between items-center">
+                <div>
+                    © 2024 Dynamic Documentation. All rights reserved.
+                </div>
+                <div class="flex space-x-4">
+                    <a href="#" class="hover:text-gray-200">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="#" class="hover:text-gray-200">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Core JavaScript -->
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobileMenuButton').addEventListener('click', function() {
+            const sidebar = document.querySelector('.sidebar-fixed');
+            sidebar.classList.toggle('active');
+        });
+
+        // Auto-hide flash messages
+        document.addEventListener('DOMContentLoaded', function() {
+            const toasts = document.querySelectorAll('.toast');
+            toasts.forEach(toast => {
+                setTimeout(() => {
+                    toast.style.animation = 'slideOut 0.3s ease-in-out forwards';
+                    setTimeout(() => toast.remove(), 300);
+                }, 5000);
+            });
+        });
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            console.log('Searching for:', searchTerm);
+        });
+    </script>
+
+    
+<script>
+// Initialize variables
+let tocCollapsed = false;
+const defaultSidebarWidth = '16rem';
+const collapsedSidebarWidth = '1.5rem';
+
+// Enhanced Toggle Table of Contents sidebar
+function toggleToc() {
+    const sidebar = document.getElementById('tocSidebar');
+    const mainContent = document.getElementById('mainContent');
+    const toggleIcon = document.getElementById('toggleIcon');
+    const tocContent = document.getElementById('tocContent');
+    
+    if (tocCollapsed) {
+        // Expand
+        sidebar.style.width = defaultSidebarWidth;
+        mainContent.style.width = 'calc(100% - 16rem)';
+        mainContent.style.marginLeft = '0';
+        toggleIcon.classList.remove('fa-chevron-right');
+        toggleIcon.classList.add('fa-chevron-left');
+        tocContent.style.opacity = '1';
+        tocContent.style.display = 'block';
+        document.body.classList.remove('toc-collapsed');
+        document.body.classList.add('toc-expanded');
+    } else {
+        // Collapse
+        sidebar.style.width = collapsedSidebarWidth;
+        mainContent.style.width = 'calc(100% - 1.5rem)';
+        mainContent.style.marginLeft = '0';
+        toggleIcon.classList.remove('fa-chevron-left');
+        toggleIcon.classList.add('fa-chevron-right');
+        tocContent.style.opacity = '0';
+        tocContent.style.display = 'none';
+        document.body.classList.remove('toc-expanded');
+        document.body.classList.add('toc-collapsed');
+    }
+    
+    // Force layout recalculation
+    window.dispatchEvent(new Event('resize'));
+    
+    tocCollapsed = !tocCollapsed;
+    localStorage.setItem('tocCollapsed', tocCollapsed);
+    
+    // Adjust section widths
+    adjustSectionWidths();
+}
+
+// Function to adjust section widths
+function adjustSectionWidths() {
+    const sections = document.querySelectorAll('.section-content');
+    const mainContent = document.getElementById('mainContent');
+    const availableWidth = mainContent.offsetWidth - 32; // Account for padding
+    
+    sections.forEach(section => {
+        section.style.width = `${availableWidth}px`;
+    });
+}
+
+// Toggle mobile menu with improved handling
+function toggleMobileMenu() {
+    const menu = document.getElementById('mobileMenu');
+    menu.classList.toggle('hidden');
+}
+
+// Enhanced copy page link functionality
+function copyPageLink() {
+    const url = window.location.href;
+    navigator.clipboard.writeText(url).then(() => {
+        // Create and show toast notification
+        const toast = document.createElement('div');
+        toast.className = 'fixed bottom-4 right-4 bg-black bg-opacity-75 text-white px-4 py-2 rounded-lg z-50 animate-fade-in';
+        toast.textContent = 'Link copied to clipboard!';
+        document.body.appendChild(toast);
+        
+        // Remove toast after 2 seconds
+        setTimeout(() => {
+            toast.classList.add('animate-fade-out');
+            setTimeout(() => toast.remove(), 300);
+        }, 2000);
+    }).catch(err => {
+        console.error('Failed to copy:', err);
+    });
+}
+
+// Enhanced section toggle with animation
+function toggleSection(sectionId) {
+    const content = document.getElementById('content-' + sectionId);
+    const icon = document.getElementById('icon-' + sectionId);
+    
+    if (content.style.display === 'none') {
+        content.style.display = 'block';
+        icon.style.transform = 'rotate(0deg)';
+        // Ensure proper width after opening
+        setTimeout(() => adjustSectionWidths(), 50);
+    } else {
+        content.style.display = 'none';
+        icon.style.transform = 'rotate(-90deg)';
+    }
+}
+
+// Enhanced active section highlighting
+function highlightActiveTocSection() {
+    const sections = document.querySelectorAll('.section');
+    const tocLinks = document.querySelectorAll('.toc-link');
+    
+    let currentSectionId = '';
+    const offset = 100;
+    
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        if (window.pageYOffset >= sectionTop - offset) {
+            currentSectionId = section.getAttribute('id');
+        }
+    });
+    
+    tocLinks.forEach(link => {
+        link.classList.remove('text-blue-600', 'font-medium');
+        if (link.getAttribute('href').slice(1) === currentSectionId) {
+            link.classList.add('text-blue-600', 'font-medium');
+        }
+    });
+}
+
+// Enhanced color preservation
+function preserveColors() {
+    document.querySelectorAll('[style*="color:"]').forEach(element => {
+        const computedStyle = window.getComputedStyle(element);
+        element.style.setProperty('--custom-color', computedStyle.color);
+    });
+
+    document.querySelectorAll('[style*="background-color:"]').forEach(element => {
+        const computedStyle = window.getComputedStyle(element);
+        element.style.setProperty('--custom-bg-color', computedStyle.backgroundColor);
+    });
+}
+
+// Initialize layout and handle window resize
+function initializeLayout() {
+    const mainContent = document.getElementById('mainContent');
+    
+    // Set initial width based on TOC state
+    if (tocCollapsed) {
+        mainContent.style.width = 'calc(100% - 1.5rem)';
+        document.body.classList.add('toc-collapsed');
+    } else {
+        mainContent.style.width = 'calc(100% - 16rem)';
+        document.body.classList.add('toc-expanded');
+    }
+    
+    // Adjust section widths
+    adjustSectionWidths();
+}
+
+// Enhanced initialization when document is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Restore TOC state from localStorage
+    const savedTocState = localStorage.getItem('tocCollapsed');
+    if (savedTocState === 'true') {
+        toggleToc();
+    }
+    
+    // Initialize layout
+    initializeLayout();
+    
+    // Setup scroll event listener for TOC highlighting
+    window.addEventListener('scroll', highlightActiveTocSection);
+    
+    // Initial TOC highlight
+    highlightActiveTocSection();
+    
+    // Setup color preservation
+    preserveColors();
+    
+    // Handle window resize
+    window.addEventListener('resize', adjustSectionWidths);
+    
+    // Hide mobile menu when clicking outside
+    document.addEventListener('click', function(event) {
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuButton = event.target.closest('[onclick="toggleMobileMenu()"]');
+        
+        if (!menuButton && !mobileMenu.contains(event.target)) {
+            mobileMenu.classList.add('hidden');
+        }
+    });
+    
+    // Handle smooth scrolling for TOC links
+    document.querySelectorAll('.toc-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+            
+            if (targetElement) {
+                targetElement.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+                
+                // Update URL without jumping
+                history.pushState(null, null, targetId);
+            }
+        });
+    });
+});
+
+// Handle CSS animations
+const styleSheet = document.createElement('style');
+styleSheet.textContent = `
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes fadeOut {
+        from { opacity: 1; transform: translateY(0); }
+        to { opacity: 0; transform: translateY(10px); }
+    }
+    
+    .animate-fade-in {
+        animation: fadeIn 0.3s ease-out forwards;
+    }
+    
+    .animate-fade-out {
+        animation: fadeOut 0.3s ease-out forwards;
+    }
+`;
+document.head.appendChild(styleSheet);
+</script>
+
+
+</body></html>

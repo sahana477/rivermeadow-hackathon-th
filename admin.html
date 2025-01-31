@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-3xl font-bold mb-6">Admin Panel</h1>
+
+        <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <h2 class="text-xl font-semibold mb-4">Page Management</h2>
+            <div id="pageList" class="space-y-2">
+                <!-- Page list will be populated here -->
+            </div>
+        </div>
+
+        <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <h2 class="text-xl font-semibold mb-4">User Management</h2>
+            <div id="userList" class="space-y-2">
+                <!-- User list will be populated here -->
+            </div>
+            <button id="addUserBtn" class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Add User
+            </button>
+        </div>
+
+        <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <h2 class="text-xl font-semibold mb-4">Edit Button Management</h2>
+            <div class="flex items-center justify-between">
+                <span>Show Edit Button</span>
+                <label class="switch">
+                    <input type="checkbox" id="editButtonToggle" onchange="toggleEditButton()">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample data (in a real app, this would come from a backend)
+        let pages = [
+            { id: 1, name: 'Home', enabled: true },
+            { id: 2, name: 'About', enabled: true },
+            { id: 3, name: 'Contact', enabled: false }
+        ];
+
+        let users = [
+            { id: 1, name: 'Admin User', role: 'admin' },
+            { id: 2, name: 'Regular User', role: 'user' }
+        ];
+
+        // Function to render pages
+        function renderPages() {
+            const pageList = document.getElementById('pageList');
+            pageList.innerHTML = pages.map(page => `
+                <div class="flex items-center justify-between">
+                    <span>${page.name}</span>
+                    <label class="switch">
+                        <input type="checkbox" ${page.enabled ? 'checked' : ''} onchange="togglePage(${page.id})">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            `).join('');
+        }
+
+        // Function to render users
+        function renderUsers() {
+            const userList = document.getElementById('userList');
+            userList.innerHTML = users.map(user => `
+                <div class="flex items-center justify-between">
+                    <span>${user.name} (${user.role})</span>
+                    <button onclick="removeUser(${user.id})" class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded">
+                        Remove
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // Function to toggle page status
+        function togglePage(id) {
+            const page = pages.find(p => p.id === id);
+            if (page) {
+                page.enabled = !page.enabled;
+                renderPages();
+            }
+        }
+
+        // Function to remove a user
+        function removeUser(id) {
+            users = users.filter(user => user.id !== id);
+            renderUsers();
+        }
+
+        // Function to add a new user
+        document.getElementById('addUserBtn').addEventListener('click', () => {
+            const name = prompt('Enter user name:');
+            const role = prompt('Enter user role (admin/user):');
+            if (name && role) {
+                users.push({ id: users.length + 1, name, role });
+                renderUsers();
+            }
+        });
+
+        // Function to toggle edit button visibility
+        function toggleEditButton() {
+            const isEnabled = document.getElementById('editButtonToggle').checked;
+            localStorage.setItem('editButtonEnabled', isEnabled);
+        }
+
+        // Function to set initial state of edit button toggle
+        function setInitialEditButtonState() {
+            const editButtonEnabled = localStorage.getItem('editButtonEnabled') === 'true';
+            document.getElementById('editButtonToggle').checked = editButtonEnabled;
+        }
+
+        // Initial render
+        renderPages();
+        renderUsers();
+        setInitialEditButtonState();
+    </script>
+
+    <style>
+        /* Toggle switch styles */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+        }
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        .slider.round {
+            border-radius: 34px;
+        }
+        .slider.round:before {
+            border-radius: 50%;
+        }
+    </style>
+</body>
+</html>

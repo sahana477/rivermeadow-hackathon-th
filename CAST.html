@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="en" data-lt-installed="true"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAST Hackathon Scenario - Runbook </title>
+   
+    <!-- Tailwind CSS -->
+    <link href="CAST_files/tailwind.min.css" rel="stylesheet">
+   
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+   
+    <!-- TinyMCE -->
+    <script src="CAST_files/tinymce.min.js"></script>
+   
+    <!-- Editor Initialization -->
+    <script src="CAST_files/editor-init.js"></script>
+   
+    <!-- Content Rendering Styles -->
+    <style>
+        /* Content Rendering Styles */
+        .content-render h1 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: #252F3E;
+            margin-bottom: 1rem;
+        }
+        .content-render h2 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: #252F3E;
+            margin-bottom: 0.875rem;
+        }
+        .content-render h3, .content-render h4, .content-render h5, .content-render h6 {
+            color: #252F3E;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+        .content-render p {
+            margin-bottom: 1rem;
+            line-height: 1.7;
+            color: #252F3E;
+        }
+        .content-render ul {
+            list-style-type: disc;
+            color: #252F3E;
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .content-render ol {
+            list-style-type: decimal;
+            color: #252F3E;
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .content-render pre, .content-render code {
+            background-color: #f3f4f6;
+            padding: 1rem;
+            border-radius: 0.375rem;
+            margin-bottom: 1rem;
+            color: #252F3E;
+        }
+        .content-render blockquote {
+            border-left-width: 4px;
+            border-color: #FF9900;
+            padding-left: 1rem;
+            font-style: italic;
+            color: #252F3E;
+            margin: 1rem 0;
+        }
+        .content-render img {
+            max-width: 100%;
+            height: auto;
+            margin: 1rem 0;
+        }
+        .content-render table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        .content-render th,
+        .content-render td {
+            border: 1px solid #e5e7eb;
+            padding: 0.75rem;
+            color: #252F3E;
+        }
+        .content-render th {
+            background-color: #f9fafb;
+            font-weight: 600;
+            color: #252F3E;
+        }
+        .content-render a {
+            color: #FF9900;
+            text-decoration: underline;
+        }
+        .content-render a:hover {
+            color: #252F3E;
+        }
+    </style>
+
+    <!-- Layout Styles -->
+    <style>
+        /* Sidebar styles */
+        .sidebar-fixed {
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            overflow-y: auto;
+            background-color: #252F3E;
+            color: white;
+        }
+       
+        /* Sidebar link styles */
+        .sidebar-fixed a {
+            color: white;
+        }
+       
+        /* Sidebar hover styles */
+        .sidebar-fixed a:hover {
+            background-color: #FF9900;
+        }
+
+        /* Mobile Navigation Button */
+        #mobileMenuButton i {
+            color: #252F3E;
+        }
+       
+        /* Toast notifications */
+        .toast {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 100;
+            background-color: white;
+            color: #252F3E;
+            animation: slideIn 0.3s ease-in-out;
+        }
+       
+        /* Button styling */
+        button {
+            background-color: #FF9900;
+            color: white;
+        }
+
+        /* Footer Styling */
+        footer {
+            background-color: #252F3E;
+            color: white;
+        }
+    </style>
+   
+    
+<style>
+    .toc-link {
+        transition: all 0.2s ease-in-out;
+    }
+
+    .toc-link:hover {
+        padding-left: 0.5rem;
+    }
+
+    @media print {
+        .no-print {
+            display: none !important;
+        }
+    }
+
+    /* Custom styles for content */
+    .markdown-content {
+        color: inherit;
+    }
+
+    .markdown-content [style*="color"] {
+        color: inherit !important;
+    }
+
+    .markdown-content span[style*="color:"] {
+        color: attr(style color) !important;
+    }
+
+    /* Sidebar transition styles */
+    .sidebar-transition {
+        transition: width 0.3s ease-in-out;
+        margin-right: 0.5rem;
+    }
+
+    .content-transition {
+        transition: all 0.3s ease-in-out;
+    }
+    
+    /* Make sure colored text remains visible */
+    [style*="color:"] {
+        color: var(--custom-color, inherit) !important;
+    }
+
+    /* Preserve background colors */
+    [style*="background-color:"] {
+        background-color: var(--custom-bg-color, inherit) !important;
+    }
+
+    /* Enhanced layout styles */
+    #mainContent {
+        transition: all 0.3s ease-in-out;
+        width: calc(100% - 16rem);
+    }
+
+    #mainContent.expanded {
+        width: calc(100% - 1.5rem);
+    }
+
+    .section-container {
+        max-width: none !important;
+        width: 100% !important;
+    }
+
+    .prose {
+        max-width: none !important;
+    }
+
+    .section {
+        padding: 1rem !important;
+    }
+
+    @media (min-width: 1024px) {
+        .section-content {
+            width: 100% !important;
+            max-width: none !important;
+        }
+    }
+
+    .content-wrapper {
+        width: 100%;
+        transition: width 0.3s ease-in-out;
+    }
+
+    .toc-expanded .content-wrapper {
+        width: calc(100% - 16rem);
+    }
+
+    .toc-collapsed .content-wrapper {
+        width: calc(100% - 1.5rem);
+    }
+    
+    /* Section spacing and width optimization */
+    .section-container {
+        margin: 0.5rem 0;
+    }
+
+    .section-content {
+        width: 100%;
+    }
+
+    /* Content container optimization */
+    .content-max-width {
+        max-width: none;
+        width: 100%;
+        margin: 0;
+        padding: 0 1rem;
+    }
+</style>
+
+<style>
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes fadeOut {
+        from { opacity: 1; transform: translateY(0); }
+        to { opacity: 0; transform: translateY(10px); }
+    }
+    
+    .animate-fade-in {
+        animation: fadeIn 0.3s ease-out forwards;
+    }
+    
+    .animate-fade-out {
+        animation: fadeOut 0.3s ease-out forwards;
+    }
+</style></head>
+
+<body class="bg-gray-100 toc-expanded" sapling-installed="true">
+    <!-- Mobile Navigation Toggle -->
+    <div class="lg:hidden">
+        <button id="mobileMenuButton" class="p-4 focus:outline-none">
+            <i class="fas fa-bars text-2xl"></i>
+        </button>
+    </div>
+
+    <!-- Sidebar Navigation -->
+    <nav class="w-64 sidebar-fixed hidden lg:block">
+        <div class="p-6">
+            <a href="http://44.210.102.246:5000/" class="flex items-center space-x-3">
+                <i class="fas fa-book text-2xl"></i>
+                <span class="text-xl font-bold">Documentation</span>
+            </a>
+        </div>
+       
+        <div class="px-4 py-2">
+            <div class="relative">
+                <input type="text" id="searchInput" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Search pages...">
+                <i class="fas fa-search absolute right-3 top-3 text-gray-400"></i>
+            </div>
+        </div>
+       
+        <div class="mt-4">
+            <div class="px-4 py-2 text-sm font-medium uppercase">
+                Navigation
+            </div>
+            <ul class="mt-2">
+                <li>
+                    <a href="index.html" class="px-6 py-2 flex items-center space-x-3 hover:bg-gray-100">
+                        <i class="fas fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="admin.html" class="px-6 py-2 flex items-center space-x-3 hover:bg-gray-100">
+                         <i class="fas fa-cog"></i>
+                        <span>Admin</span>
+                    </a>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="lg:ml-64">
+        <div class="container mx-auto px-4 py-8">
+            <!-- Flash Messages -->
+            
+                
+            
+
+            <!-- Page Content -->
+            
+<div class="flex min-h-screen w-full gap-0">
+    <!-- Collapsible Sidebar -->
+    <div id="tocSidebar" class="sidebar-transition bg-white shadow-md h-screen sticky top-0 overflow-y-auto" style="width: 16rem;">
+        <div class="relative p-4">
+            <!-- Toggle Button -->
+            <button id="toggleToc" class="absolute -right-3 top-4 bg-blue-500 text-white p-4 rounded-full shadow-md hover:bg-gray-50 z-10" onclick="toggleToc()">
+                <i id="toggleIcon" class="fas fa-chevron-left"></i>
+            </button>
+
+            <div id="tocContent">
+                <h2 class="text-lg font-semibold mb-4">Table of Contents</h2>
+                
+                    <a href="#section-11" class="toc-link block text-sm text-gray-600 hover:text-blue-600 py-1">
+                        Introduction
+                    </a>
+                
+                    <a href="#section-12" class="toc-link block text-sm text-gray-600 hover:text-blue-600 py-1">
+                        Prerequisite
+                    </a>
+                
+                    <a href="#section-13" class="toc-link block text-sm text-gray-600 hover:text-blue-600 py-1">
+                        Hack-1 : CAST Highlight - Portfolio analysis
+                    </a>
+                
+                    <a href="#section-14" class="toc-link block text-sm text-gray-600 hover:text-blue-600 py-1">
+                        Hack-2:  Cast Imaging - Application Analysis for Modernization
+                    </a>
+                
+
+                <div class="mt-6 pt-6 border-t">
+                    <h3 class="text-sm font-medium text-gray-500 mb-3">Page Actions</h3>
+                    <div class="space-y-2">
+                        <button onclick="window.print()" class="w-full flex items-center px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 rounded">
+                            <i class="fas fa-print mr-2"></i> Print Page
+                        </button>
+                        <button onclick="copyPageLink()" class="w-full flex items-center px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 rounded">
+                            <i class="fas fa-link mr-2"></i> Copy Link
+                        </button>
+                        <button class="w-full flex items-center px-4 py-2 text-sm text-gray-400 bg-gray-200 rounded cursor-not-allowed" disabled>
+                            <i class="fas fa-edit mr-2"></i> Edit Page
+                        </button>
+                            
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Main Content Area -->
+    <div id="mainContent" class="flex-1 content-transition" style="width: calc(100% - 16rem);">
+        <div class="content-max-width">
+            <!-- Page Header -->
+            <div class="mb-4">
+                <div class="flex items-center justify-between mb-3">
+                    <h1 class="text-4xl font-bold text-gray-900">CAST Hackathon Scenario - Runbook </h1>
+                    <div class="lg:hidden relative">
+                        <button onclick="toggleMobileMenu()" class="text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-ellipsis-v text-xl"></i>
+                        </button>
+                        <div id="mobileMenu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
+                            <button onclick="window.print()" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                <i class="fas fa-print mr-2"></i> Print Page
+                            </button>
+                            <button onclick="copyPageLink()" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                <i class="fas fa-link mr-2"></i> Copy Link
+                            </button>
+                            
+                            <button class="w-full flex items-center px-4 py-2 text-sm text-gray-400 bg-gray-200 rounded cursor-not-allowed" disabled>
+                                <i class="fas fa-edit mr-2"></i> Edit Page
+                            </button>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center text-sm text-gray-500 space-x-4">
+                    <span>Updated November 18, 2024</span>
+                    <span>4 sections</span>
+                    
+                        <span>77 views</span>
+                    
+                </div>
+
+                
+                    <div class="mt-3 text-gray-600">
+                        Runbook for CAST Highlight and CAST Imaging Hackathon
+                    </div>
+                
+
+                
+            </div>
+
+            <!-- Table of Contents for Mobile -->
+            <div class="lg:hidden mb-6 no-print">
+                <h2 class="text-lg font-medium mb-3">Table of Contents</h2>
+                
+                    <a href="#section-11" class="block py-2 text-gray-600 hover:text-blue-600">
+                        Introduction
+                    </a>
+                
+                    <a href="#section-12" class="block py-2 text-gray-600 hover:text-blue-600">
+                        Prerequisite
+                    </a>
+                
+                    <a href="#section-13" class="block py-2 text-gray-600 hover:text-blue-600">
+                        Hack-1 : CAST Highlight - Portfolio analysis
+                    </a>
+                
+                    <a href="#section-14" class="block py-2 text-gray-600 hover:text-blue-600">
+                        Hack-2:  Cast Imaging - Application Analysis for Modernization
+                    </a>
+                
+            </div>
+
+            <!-- Sections Content -->
+            <div class="space-y-4">
+                
+                    <div id="section-11" class="section bg-white rounded-lg shadow-md overflow-hidden w-full">
+                        <div class="p-4">
+                            <div class="flex items-center justify-between cursor-pointer select-none" onclick="toggleSection('section-11')">
+                                <h2 class="text-2xl font-bold text-gray-900">Introduction</h2>
+                                <i class="fas fa-chevron-down text-gray-500 transform transition-transform duration-200" id="icon-section-11"></i>
+                            </div>
+
+                            <div id="content-section-11" class="section-content mt-4 prose max-w-none markdown-content content-render" style="width: 1208px;">
+                                <p>This Hackathon is designed to familiarize participants with two powerful CAST tools: <strong>CAST Highlight</strong> and <strong>CAST Imaging</strong>. The event is structured in two parts:</p>
+<p><strong>Hack-1: CAST Highlight</strong> <strong>- Portfolio Analysis:</strong> This section focuses on portfolio analysis of applications. Participants will learn how to:</p>
+<ul>
+<li>Conduct comprehensive application assessments</li>
+<li>Generate modernization insights</li>
+<li>Receive targeted recommendations</li>
+<li>Identify suitable AWS services for migration and optimization</li>
+</ul>
+<p><strong>Hack-2: CAST Imaging</strong> &nbsp;<strong>- Application Analysis for Modernization:</strong> In this part, participants will explore an interactive tool for in-depth application analysis. They will learn to:</p>
+<ul>
+<li>Visualize and understand application architecture</li>
+<li>Identify key components and their interactions</li>
+<li>Navigate complex codebases efficiently</li>
+<li>Gain insights into potential areas for improvement or refactoring</li>
+</ul>
+<p>By engaging with both tools, participants will develop a holistic 
+approach to application modernization, combining high-level portfolio 
+management with detailed architectural analysis. This hands-on 
+experience will equip them with valuable skills for optimizing and 
+transforming their software ecosystems.</p>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div id="section-12" class="section bg-white rounded-lg shadow-md overflow-hidden w-full">
+                        <div class="p-4">
+                            <div class="flex items-center justify-between cursor-pointer select-none" onclick="toggleSection('section-12')">
+                                <h2 class="text-2xl font-bold text-gray-900">Prerequisite</h2>
+                                <i class="fas fa-chevron-down text-gray-500 transform transition-transform duration-200" id="icon-section-12"></i>
+                            </div>
+
+                            <div id="content-section-12" class="section-content mt-4 prose max-w-none markdown-content content-render" style="display: none; width: 1208px;">
+                                <p>1. AMI deployed in all Isengard accounts - 1 designated account for each team&nbsp;<br>2. CAST Highlight - username and password is available per group.<br>3. RDP Client to be installed on your laptop for remote access - for Mac user&nbsp;</p>
+<p><br><span style=""><em><span style="">Important notes: The entire 
+hackathon hands-on process needs to be done inside the Windows EC2 
+instance pre-deployed inside the Isengard account</span>.</em></span></p>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div id="section-13" class="section bg-white rounded-lg shadow-md overflow-hidden w-full">
+                        <div class="p-4">
+                            <div class="flex items-center justify-between cursor-pointer select-none" onclick="toggleSection('section-13')">
+                                <h2 class="text-2xl font-bold text-gray-900">Hack-1 : CAST Highlight - Portfolio analysis</h2>
+                                <i class="fas fa-chevron-down text-gray-500 transform transition-transform duration-200" id="icon-section-13"></i>
+                            </div>
+
+                            <div id="content-section-13" class="section-content mt-4 prose max-w-none markdown-content content-render" style="display: none; width: 1208px;">
+                                <h5>Introduction</h5>
+<p>In this session, participants will explore the capabilities of CAST 
+Highlight, a powerful tool designed to streamline and enhance cloud 
+migration strategies. The session will demonstrate how CAST Highlight 
+can rapidly assess the cloud readiness of large application portfolios, 
+regardless of their current hosting environment or technology stack. 
+Attendees will learn to leverage this tool to analyze hundreds of custom
+ applications within a week, providing accurate insights for both 
+on-premise systems and those already migrated to major cloud providers 
+like AWS, Google, or Azure.<br>The session will also cover how CAST 
+Highlight can be used beyond initial assessment, serving as a continuous
+ monitoring solution throughout the entire cloud migration journey. 
+Participants will discover how to track the progress of their cloud 
+transformation programs, ensuring ongoing optimization. Additionally, 
+the session will explore CAST Highlight's features for continuous 
+analysis of open-source safety and overall software health across the 
+entire application portfolio. This comprehensive approach enables 
+organizations to maintain visibility and control as their applications 
+evolve and modernize in the cloud environment, ensuring long-term 
+success and security in their digital transformation efforts.</p>
+<p><a title="https://www.castsoftware.com/highlight" href="https://www.castsoftware.com/highlight" target="_blank" rel="noopener">https://www.castsoftware.com/highlight</a></p>
+<h5>Section 1 : Preparation</h5>
+<ol>
+<li>Users need to log in to the Windows EC2 using a username / password (<em>Administrator / AWS&amp;CAST@Sing</em>)
+<ul>
+<li>Login to your Captain’s Isengard account associated to your group</li>
+<li>Change your region to N.Virginia</li>
+<li>Go to EC2 and find the VM running name <strong>“CastHackathon-SG-001”</strong> and RDP into the EC2 instance</li>
+</ul>
+</li>
+<li>User will verify that all the components are loaded on VM
+<ul>
+<li>In the Windows Search box type ‘Services“ to open the services</li>
+</ul>
+</li>
+<li>Users <strong>MUST</strong> verify that all CAST services are up and running.</li>
+<li>User will download all the files from GitHub Repo URL <a href="https://github.com/sebastian-aws-sg/migratapalooza" target="_blank" rel="noopener">https://github.com/sebastian-aws-sg/migratapalooza</a>.
+ This repo contains multiple applications source code and a README.md 
+file contains the business context of each application. Download the zip
+ file and extract it in your local folder.</li>
+</ol>
+<h5>Section 2 : Onboarding the applications</h5>
+<ol>
+<li>Login to CAST highlight using <a href="https://rpa.casthighlight.com/" target="_blank" rel="noopener">https://rpa.casthighlight.com/</a> using your username and password which you have created using the invite email from CAST</li>
+<li>Click on Funnel icon on the top-right corner to check your domain 
+and make sure that you have selected your domain. As per the below 
+screenshot. Please note that your Domain name may be different based on 
+the group you are in. &nbsp;<img src="CAST_files/20241114_085054_image1.png" alt="image1.png" width="1512" height="503"></li>
+<li>From the CAST Highlight home page, click on the <em><strong>MANAGE PORTFOLIO</strong></em> menu and then on the <strong>User &amp; Apps</strong> menu <img src="CAST_files/20241114_085202_image2.png" alt="image2.png"></li>
+<li>Your portfolio management screen as per below. <img src="CAST_files/20241114_085543_image3.1.png" alt="image3.1.png"></li>
+<li>When you click on the “Total Applications” tile, you will see a set of 5 applications assigned onto your AWS_SubDomain. <img src="CAST_files/20241114_085637_image3.png" alt="image3.png" width="850" height="470"></li>
+</ol>
+<h5>Section 3 : Create a survey campaign to collect application info</h5>
+<ol>
+<li>Under Manage Portfolio, click on “Manage Campaigns”, You will reach the below screen. Click <strong>Create Campaign</strong> <img src="CAST_files/20241114_090222_image4.png" alt="image4.png" width="1512" height="383"></li>
+<li>Provide a name for the campaign and closing date.<img src="CAST_files/20241114_090333_image5.png" alt="image5.png"></li>
+<li>In the&nbsp;<em><strong>Configuration</strong></em> tab, we’ll ask for both the source scans and some survey answers. Let’s add the two most basic surveys: <em><strong>Application Properties,</strong></em>&nbsp;<em><strong>Business Impact and Cloud Maturity Survey. <img src="CAST_files/20241114_090359_Image6.jpg" alt="Image6.jpg" width="828" height="526"></strong></em></li>
+<li>In the next step in the application scope, select all 5 applications. <img src="CAST_files/20241114_090430_Image7.jpg" alt="Image7.jpg" width="828" height="564"></li>
+<li>Notifications: You may set the <strong>Launch message</strong> to <strong>OFF</strong> as we don’t have any other Contributors to inform about this new campaign. <img src="CAST_files/20241114_090503_image8.png" alt="image8.png" width="805" height="465"></li>
+<li>Click "Complete" and proceed. Our campaign management screen now shows pending scans associated with our ongoing campaign</li>
+</ol>
+<h5>Section 4 : Scanning the code</h5>
+<ol>
+<li>Launch the <strong>CAST Highlight Code reader </strong>application installed on the EC2 Instance.</li>
+<li>Now that the <strong>CAST Highlight Code Reader</strong> is launched, simply select the directory where you've extracted the source code for the first application.</li>
+<li>Please select the folder for one application, like “webgoat“. <strong><em>Please do not use higher level folders, please consider using application level folders only. <img src="CAST_files/20241114_091020_image9.png" alt="image9.png"></em></strong></li>
+<li>After adding the code folder you need to hit the “Launch scan” button , you will see a progress bar for scanning of application.<img src="CAST_files/20241114_091059_image10.png" alt="image10.png" width="1215" height="532"></li>
+<li>Once the applications are scanned, you will see the below results window. <img src="CAST_files/20241114_091226_image11.png" alt="image11.png"></li>
+<li>You have to save the results using “<strong>save results</strong>” button. <img src="CAST_files/20241114_091428_image12.png" alt="image12.png"></li>
+<li>Save the results in a new folder dedicated to scan outcomes, 
+creating separate subfolders named after each application for better 
+organization. The Code Reader will save results as a zip file in your 
+chosen location. <img src="CAST_files/20241114_091446_image13.png" alt="image13.png"></li>
+<li>Repeat the process for remaining applications such as 
+loan-origination system, recipe-portal etc and save the results into 
+respective folders.</li>
+<li>Now it is time to upload the scan results off all applications into 
+the CAST Highlight portal. Let’s go back to the CAST Highlight web 
+portal (using our EC2 instance if we used that for scanning) and click 
+on the <em><strong>APPLICATION SCANS</strong></em> menu.</li>
+<li>You will now see all 5 applications in pending or ongoing state with the upload results button. <img src="CAST_files/20241114_091531_image14.png" alt="image14.png"></li>
+<li>Once you click on the upload results, you will see the screen below where you can upload the code reader scan results zip file. <img src="CAST_files/20241114_091632_image15.png" alt="image15.png" width="663" height="530"></li>
+<li>Once you upload the zip file you will see a screen similar to the 
+below screenshot, which will list out the files discovered in zip file. <img src="CAST_files/20241114_091705_image16.png" alt="image16.png" width="613" height="726"></li>
+<li>Upload the scan results for all 5 applications.</li>
+</ol>
+<h5>Section 5 : Survey campaigns</h5>
+<ol>
+<li>Filling in the Surveys. Application ReadMe file contains the 
+business context of the applications from which you can find the 
+answers.</li>
+<li>The surveys we selected during the campaign creation are pretty 
+straightforward. There’s a lot more that can be done through surveys, 
+but we’ll keep it simple here so you can see how it works. You have 
+three surveys to complete:</li>
+<ul>
+<li><em><strong>Application Properties</strong></em></li>
+<li><em><strong>Business Impact</strong></em></li>
+<li><strong><em>Cloud Maturity Survey</em></strong></li>
+</ul>
+<li>Go to the application scan menu and click on the survey button for 
+the particular application, the survey is for each application. You will
+ see the screen below. Where you can fill in your answers based on the 
+application information and business context provided in the README file
+ in the github repository. <img src="CAST_files/20241114_092455_image17.png" alt="image17.png"></li>
+<li>Depending upon the survey selection in Section3 step2, you will have the below survey to fill.</li>
+<ul>
+<li><em><strong>Application Properties</strong></em></li>
+<li><em><strong>Business Impact</strong></em></li>
+<li><strong><em>Cloud Maturity Survey</em></strong></li>
+</ul>
+<li>Once you fill in all the answers, save your answers.</li>
+<li>Repeat the same process for all 5 applications</li>
+<li>Once you finish the survey and the results are uploaded for all 5 applications, you need to hit the <strong>submit</strong> button.</li>
+<li>Click on the home button to see the portfolio analysis as per the 
+below screenshot. If you are not able to see any information, please 
+click on the <strong>“Compute” </strong>button. <img src="CAST_files/20241114_092538_image18.png" alt="image18.png" width="1256" height="978"></li>
+</ol>
+<h5>Section 6 : Application Analysis Results</h5>
+<p>Analysis results can be viewed from different perspective via different menus provided.&nbsp;</p>
+<h6><strong>SOFTWARE HEALTH</strong></h6>
+<p>Software Health indicates how your application complies with 
+programming best practices that increase resiliency, improve agility and
+ reduce complexity. Software Health score is the straight average of <em>Software Resiliency</em>, <em>Software Agility</em> and <em>Software Elegance</em> scores.</p>
+<ul>
+<li><strong>Software Resiliency:</strong></li>
+</ul>
+<p>Software Resiliency indicates programming best practices that make 
+software bullet-proof, more robust and secure. This index is derived 
+from technology-specific code analysis which searches for the presence 
+of code patterns and bad programming practices which may compromise the 
+reliability of the software in the short term. Higher the Software 
+Resiliency, lower is the likelihood of defects to occur in production.</p>
+<ul>
+<li><strong>Software Agility:</strong></li>
+</ul>
+<p>Software Agility indicates the easiness of a development team to 
+understand and maintain an application. This index is derived from 
+technology-specific code analysis which searches for the presence of 
+embedded documentation and code readability good practices.</p>
+<ul>
+<li><strong>Software Elegance:</strong></li>
+</ul>
+<p>Software Elegance measures the ability to deliver software value with
+ less code complexity. A low Software Elegance score indicates decreased
+ quality in the code resulting in higher defects which may become costly
+ to fix in the mid-term.</p>
+<h6><strong>CLOUD MATURITY</strong></h6>
+<p>CAST Highlight helps automatically segment your application portfolio
+ into Cloud migration buckets, within a manner of seconds. The <strong>Portfolio Advisor for Cloud</strong> dashboard is an automated and smart way to segment an application portfolio for Cloud migration.&nbsp;<img src="CAST_files/20241114_092725_image19.png" alt="image19.png" style=""></p>
+<p>The five Portfolio Advisor for Cloud segments are defined as follows:<br><br><strong>Rehost:</strong>
+ A recommendation to change the infrastructure configuration of the 
+application in order to “Lift &amp; Shift” it to the cloud using 
+Infrastructure as a Service (IaaS).<br><strong>Refactor:</strong> A 
+recommendation to perform modest modifications of the application code 
+without changing the architecture or functionality so that it can be 
+migrated to the cloud in a container using Container as a Service (CaaS)
+ or using Platform as a Service (PaaS).<br><strong>Rearchitect:</strong>
+ A recommendation to dramatically modify the application code thereby 
+altering the architecture to improve the health of the application and 
+enable it to be migrated to the cloud using Platform as a Service (PaaS)
+ or deployed serverless using Function as a Service (FaaS).<br><strong>Rebuild:</strong>
+ A recommendation to discard the code of the application and develop it 
+again in the cloud using Platform as a Service (PaaS) or serverless 
+using Function as a Service (FaaS).<br><strong>Retire:</strong> A 
+recommendation to discard the application altogether or potentially 
+replace it with a commercial Software as a Service (SaaS) alternative.<br><br>The <strong>Cloud Migration Wave Advisor</strong>
+ combines both strategical and tactical insights gathered for each 
+application analyzed by CAST Highlight to automatically propose an 
+optimized sequence, in four different waves:</p>
+<ul>
+<li><strong>Wave 1 – Quick Wins:</strong> Migrate now with minimal effort and risk</li>
+<li><strong>Wave 2 – Core Cloud:</strong> Migrate next while also modernizing</li>
+<li><strong>Wave 3 – Long Term Bets:</strong> Migrate and then modernize later</li>
+<li><strong>Wave 4 – Pursue Later:</strong> Modernize first and then migrate&nbsp;<img src="CAST_files/20241114_092900_image20.png" alt="image20.png" width="896" height="583"></li>
+</ul>
+<p><strong>Cloud Service Recommendations: </strong>CAST has leveraged 
+Software Intelligence insights, in partnership with Cloud experts from 
+Amazon Web Services, in a series of workshops to translate them into 
+specific recommendations for adopting various cloud services on AWS. <img src="CAST_files/20241114_092931_image21.png" alt="image21.png" width="1512" height="486"></p>
+<p>There are various other dashboards that are available across other 
+insights as well, including some specific ones around Software Health, 
+Technical Debt etc. as seen below.&nbsp;</p>
+<p><img src="CAST_files/20241114_092950_mceu_53656472811731576588739.png"></p>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div id="section-14" class="section bg-white rounded-lg shadow-md overflow-hidden w-full">
+                        <div class="p-4">
+                            <div class="flex items-center justify-between cursor-pointer select-none" onclick="toggleSection('section-14')">
+                                <h2 class="text-2xl font-bold text-gray-900">Hack-2:  Cast Imaging - Application Analysis for Modernization</h2>
+                                <i class="fas fa-chevron-down text-gray-500 transform transition-transform duration-200" id="icon-section-14"></i>
+                            </div>
+
+                            <div id="content-section-14" class="section-content mt-4 prose max-w-none markdown-content content-render" style="display: none; width: 1208px;">
+                                <h5>Introduction</h5>
+<p>CAST Imaging is a sophisticated, interactive tool designed to 
+reverse-engineer and visualize complex software systems. It creates 
+detailed, interactive architecture blueprints that allow users to 
+navigate through intricate application structures, from high-level 
+services down to object-level granularity. The tool automatically 
+analyzes and maps out the technology stack, application layers, and 
+interdependencies between components, providing a comprehensive view of 
+the entire system. One of its key features is the ability to generate 
+and display end-to-end transaction flows, enabling users to trace 
+processes from the user interface through various intermediate layers to
+ the database. Acting as a robust technical knowledge base, CAST Imaging
+ offers powerful search capabilities, documentation features for user 
+annotations, tagging functionalities to categorize technical objects, 
+and aggregation tools for creating functional views or designing future 
+architectures. It also provides insights into inter-application 
+relationships, such as API calls and shared data resources. This 
+comprehensive approach makes CAST Imaging an invaluable asset for 
+software architects, developers, and decision-makers seeking to 
+understand, analyze, and optimize complex application ecosystems.<br><br><a href="https://www.castsoftware.com/imaging" target="_blank" rel="noopener">https://www.castsoftware.com/imaging</a></p>
+<h5>Section 1 : Source code onboarding for detailed analysis</h5>
+<ol>
+<li>Open a browser and open the CAST imaging console using the URL <a href="http://localhost:8081/" target="_blank" rel="noopener">localhost:8081</a> you will see the below URL <img src="CAST_files/20241114_093641_image1.png" alt="image1.png"></li>
+<li>Click-on the onboard application button</li>
+<li>in the below pop-up window, add the “zip” file of the application 
+which is selected for modernization. As per the below screenshot. <img src="CAST_files/20241114_093732_image2.png" alt="image2.png" width="622" height="470"></li>
+<li>Click on the “Fast Scan” button, which will initiate the scan for 
+the application code, you will see the scanning in progress as below 
+screenshot.<img src="CAST_files/20241114_093758_image3.png" alt="image3.png" width="1290" height="775"></li>
+<li>Once the scanning is completed, you will see a summary screen similar to the below screenshot. <img src="CAST_files/20241114_093818_image4.png" alt="image4.png" width="1512" height="625"></li>
+<li>After scrolling down, the software composition screen is also similar to the screen below.<img src="CAST_files/20241114_093846_image5.png" alt="image5.png" width="1512" height="447"></li>
+<li>After scrolling down more, technology stack framework and package inventory as per below screenshot.<img src="CAST_files/20241114_093901_image6.png" alt="image6.png" width="1018" height="515"></li>
+<li>The quick architectural view is also visible, similar to the one shown in the below screen. <img src="CAST_files/20241114_093945_image7.png" alt="image7.png" width="1008" height="658"></li>
+<li>Lastly, you will see a <strong>“RUN ANALYSIS</strong>” button to carry out a detailed analysis of the application code. <img src="CAST_files/20241114_094001_image8.png" alt="image8.png" width="1512" height="168"></li>
+<li>Which will generate a popup as per the below screenshot.<img src="CAST_files/20241114_094113_image9.png" alt="image9.png" width="261" height="336" style=""></li>
+<li>Click "Run Analysis". This will initiate a deep analysis process. <img src="CAST_files/20241114_094217_image10.png" alt="image10.png" width="1204" height="596"></li>
+<li>This will take 15-30 mins depending on the size of the application, 
+Once CAST finishes the “Deep analysis”, you will see the below screen 
+showing the results of the analysis. <img src="CAST_files/20241114_094236_image11.png" alt="image11.png"></li>
+<li>Please review the details of the results in all sections carefully.</li>
+</ol>
+<h5>Section 2: Visualizing and Analyzing results</h5>
+<ol>
+<li>Open the CAST Imaging console on <a href="http://localhost:8083/" target="_blank" rel="noopener">localhost:8083</a> use username and password, admin / admin</li>
+<li>You will see the application on-bordered, you can click on the application and see all the results of analysis. <img src="CAST_files/20241114_094521_image1.png" alt="image1.png"></li>
+<li>There are three main sections about application analysis results as shown below screenshot. <img src="CAST_files/20241114_094603_image2.png" alt="image2.png" width="1238" height="371"></li>
+<li>Each section has subsections with application info, as shown in the screenshot below.<img src="CAST_files/20241114_094619_image3.png" alt="image3.png"></li>
+<li>You can use each tab to get more detailed information about the 
+application. For example, the application architecture will show 
+application architecture visualization as shown in below.<img src="CAST_files/20241114_094642_image4.png" alt="image4.png" width="798" height="872"></li>
+<li>To understand the architecture in more detail, choose the Level 5 of
+ the navigation perspective. Which will give a more detailed 
+architectural view of the application. <img src="CAST_files/20241114_094716_image5.png" alt="image5.png" width="1512" height="844"></li>
+<li>Use this application information to prepare a modernization plan and
+ target architecture, including AWS services as requested in the 
+Hackathon scenario.</li>
+</ol>
+                            </div>
+                        </div>
+                    </div>
+                
+            </div>
+
+            <div class="flex items-center justify-between text-sm text-gray-500 mt-6">
+                <div>
+                    Last updated: 2024-11-18 08:26
+                </div>
+                <a href="#" class="text-gray-600 hover:text-gray-900">Back to top</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="mt-8 lg:ml-64">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex justify-between items-center">
+                <div>
+                    © 2024 Dynamic Documentation. All rights reserved.
+                </div>
+                <div class="flex space-x-4">
+                    <a href="#" class="hover:text-gray-200">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="#" class="hover:text-gray-200">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Core JavaScript -->
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobileMenuButton').addEventListener('click', function() {
+            const sidebar = document.querySelector('.sidebar-fixed');
+            sidebar.classList.toggle('active');
+        });
+
+        // Auto-hide flash messages
+        document.addEventListener('DOMContentLoaded', function() {
+            const toasts = document.querySelectorAll('.toast');
+            toasts.forEach(toast => {
+                setTimeout(() => {
+                    toast.style.animation = 'slideOut 0.3s ease-in-out forwards';
+                    setTimeout(() => toast.remove(), 300);
+                }, 5000);
+            });
+        });
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            console.log('Searching for:', searchTerm);
+        });
+    </script>
+
+    
+<script>
+// Initialize variables
+let tocCollapsed = false;
+const defaultSidebarWidth = '16rem';
+const collapsedSidebarWidth = '1.5rem';
+
+// Enhanced Toggle Table of Contents sidebar
+function toggleToc() {
+    const sidebar = document.getElementById('tocSidebar');
+    const mainContent = document.getElementById('mainContent');
+    const toggleIcon = document.getElementById('toggleIcon');
+    const tocContent = document.getElementById('tocContent');
+    
+    if (tocCollapsed) {
+        // Expand
+        sidebar.style.width = defaultSidebarWidth;
+        mainContent.style.width = 'calc(100% - 16rem)';
+        mainContent.style.marginLeft = '0';
+        toggleIcon.classList.remove('fa-chevron-right');
+        toggleIcon.classList.add('fa-chevron-left');
+        tocContent.style.opacity = '1';
+        tocContent.style.display = 'block';
+        document.body.classList.remove('toc-collapsed');
+        document.body.classList.add('toc-expanded');
+    } else {
+        // Collapse
+        sidebar.style.width = collapsedSidebarWidth;
+        mainContent.style.width = 'calc(100% - 1.5rem)';
+        mainContent.style.marginLeft = '0';
+        toggleIcon.classList.remove('fa-chevron-left');
+        toggleIcon.classList.add('fa-chevron-right');
+        tocContent.style.opacity = '0';
+        tocContent.style.display = 'none';
+        document.body.classList.remove('toc-expanded');
+        document.body.classList.add('toc-collapsed');
+    }
+    
+    // Force layout recalculation
+    window.dispatchEvent(new Event('resize'));
+    
+    tocCollapsed = !tocCollapsed;
+    localStorage.setItem('tocCollapsed', tocCollapsed);
+    
+    // Adjust section widths
+    adjustSectionWidths();
+}
+
+// Function to adjust section widths
+function adjustSectionWidths() {
+    const sections = document.querySelectorAll('.section-content');
+    const mainContent = document.getElementById('mainContent');
+    const availableWidth = mainContent.offsetWidth - 32; // Account for padding
+    
+    sections.forEach(section => {
+        section.style.width = `${availableWidth}px`;
+    });
+}
+
+// Toggle mobile menu with improved handling
+function toggleMobileMenu() {
+    const menu = document.getElementById('mobileMenu');
+    menu.classList.toggle('hidden');
+}
+
+// Enhanced copy page link functionality
+function copyPageLink() {
+    const url = window.location.href;
+    navigator.clipboard.writeText(url).then(() => {
+        // Create and show toast notification
+        const toast = document.createElement('div');
+        toast.className = 'fixed bottom-4 right-4 bg-black bg-opacity-75 text-white px-4 py-2 rounded-lg z-50 animate-fade-in';
+        toast.textContent = 'Link copied to clipboard!';
+        document.body.appendChild(toast);
+        
+        // Remove toast after 2 seconds
+        setTimeout(() => {
+            toast.classList.add('animate-fade-out');
+            setTimeout(() => toast.remove(), 300);
+        }, 2000);
+    }).catch(err => {
+        console.error('Failed to copy:', err);
+    });
+}
+
+// Enhanced section toggle with animation
+function toggleSection(sectionId) {
+    const content = document.getElementById('content-' + sectionId);
+    const icon = document.getElementById('icon-' + sectionId);
+    
+    if (content.style.display === 'none') {
+        content.style.display = 'block';
+        icon.style.transform = 'rotate(0deg)';
+        // Ensure proper width after opening
+        setTimeout(() => adjustSectionWidths(), 50);
+    } else {
+        content.style.display = 'none';
+        icon.style.transform = 'rotate(-90deg)';
+    }
+}
+
+// Enhanced active section highlighting
+function highlightActiveTocSection() {
+    const sections = document.querySelectorAll('.section');
+    const tocLinks = document.querySelectorAll('.toc-link');
+    
+    let currentSectionId = '';
+    const offset = 100;
+    
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        if (window.pageYOffset >= sectionTop - offset) {
+            currentSectionId = section.getAttribute('id');
+        }
+    });
+    
+    tocLinks.forEach(link => {
+        link.classList.remove('text-blue-600', 'font-medium');
+        if (link.getAttribute('href').slice(1) === currentSectionId) {
+            link.classList.add('text-blue-600', 'font-medium');
+        }
+    });
+}
+
+// Enhanced color preservation
+function preserveColors() {
+    document.querySelectorAll('[style*="color:"]').forEach(element => {
+        const computedStyle = window.getComputedStyle(element);
+        element.style.setProperty('--custom-color', computedStyle.color);
+    });
+
+    document.querySelectorAll('[style*="background-color:"]').forEach(element => {
+        const computedStyle = window.getComputedStyle(element);
+        element.style.setProperty('--custom-bg-color', computedStyle.backgroundColor);
+    });
+}
+
+// Initialize layout and handle window resize
+function initializeLayout() {
+    const mainContent = document.getElementById('mainContent');
+    
+    // Set initial width based on TOC state
+    if (tocCollapsed) {
+        mainContent.style.width = 'calc(100% - 1.5rem)';
+        document.body.classList.add('toc-collapsed');
+    } else {
+        mainContent.style.width = 'calc(100% - 16rem)';
+        document.body.classList.add('toc-expanded');
+    }
+    
+    // Adjust section widths
+    adjustSectionWidths();
+}
+
+// Enhanced initialization when document is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Restore TOC state from localStorage
+    const savedTocState = localStorage.getItem('tocCollapsed');
+    if (savedTocState === 'true') {
+        toggleToc();
+    }
+    
+    // Initialize layout
+    initializeLayout();
+    
+    // Setup scroll event listener for TOC highlighting
+    window.addEventListener('scroll', highlightActiveTocSection);
+    
+    // Initial TOC highlight
+    highlightActiveTocSection();
+    
+    // Setup color preservation
+    preserveColors();
+    
+    // Handle window resize
+    window.addEventListener('resize', adjustSectionWidths);
+    
+    // Hide mobile menu when clicking outside
+    document.addEventListener('click', function(event) {
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuButton = event.target.closest('[onclick="toggleMobileMenu()"]');
+        
+        if (!menuButton && !mobileMenu.contains(event.target)) {
+            mobileMenu.classList.add('hidden');
+        }
+    });
+    
+    // Handle smooth scrolling for TOC links
+    document.querySelectorAll('.toc-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+            
+            if (targetElement) {
+                targetElement.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+                
+                // Update URL without jumping
+                history.pushState(null, null, targetId);
+            }
+        });
+    });
+});
+
+// Handle CSS animations
+const styleSheet = document.createElement('style');
+styleSheet.textContent = `
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes fadeOut {
+        from { opacity: 1; transform: translateY(0); }
+        to { opacity: 0; transform: translateY(10px); }
+    }
+    
+    .animate-fade-in {
+        animation: fadeIn 0.3s ease-out forwards;
+    }
+    
+    .animate-fade-out {
+        animation: fadeOut 0.3s ease-out forwards;
+    }
+`;
+document.head.appendChild(styleSheet);
+</script>
+
+
+</body></html>

@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en" data-lt-installed="true"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Migratapalooza : RiverMeadow Hackathon Scenario - Runbook - Documentation</title>
+   
+    <!-- Tailwind CSS -->
+    <link href="RiverMeadow_files/tailwind.min.css" rel="stylesheet">
+   
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+   
+    <!-- TinyMCE -->
+    <script src="RiverMeadow_files/tinymce.min.js"></script>
+   
+    <!-- Editor Initialization -->
+    <script src="RiverMeadow_files/editor-init.js"></script>
+   
+    <!-- Content Rendering Styles -->
+    <style>
+        /* Content Rendering Styles */
+        .content-render h1 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: #252F3E;
+            margin-bottom: 1rem;
+        }
+        .content-render h2 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: #252F3E;
+            margin-bottom: 0.875rem;
+        }
+        .content-render h3, .content-render h4, .content-render h5, .content-render h6 {
+            color: #252F3E;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+        .content-render p {
+            margin-bottom: 1rem;
+            line-height: 1.7;
+            color: #252F3E;
+        }
+        .content-render ul {
+            list-style-type: disc;
+            color: #252F3E;
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .content-render ol {
+            list-style-type: decimal;
+            color: #252F3E;
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .content-render pre, .content-render code {
+            background-color: #f3f4f6;
+            padding: 1rem;
+            border-radius: 0.375rem;
+            margin-bottom: 1rem;
+            color: #252F3E;
+        }
+        .content-render blockquote {
+            border-left-width: 4px;
+            border-color: #FF9900;
+            padding-left: 1rem;
+            font-style: italic;
+            color: #252F3E;
+            margin: 1rem 0;
+        }
+        .content-render img {
+            max-width: 100%;
+            height: auto;
+            margin: 1rem 0;
+        }
+        .content-render table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        .content-render th,
+        .content-render td {
+            border: 1px solid #e5e7eb;
+            padding: 0.75rem;
+            color: #252F3E;
+        }
+        .content-render th {
+            background-color: #f9fafb;
+            font-weight: 600;
+            color: #252F3E;
+        }
+        .content-render a {
+            color: #FF9900;
+            text-decoration: underline;
+        }
+        .content-render a:hover {
+            color: #252F3E;
+        }
+    </style>
+
+    <!-- Layout Styles -->
+    <style>
+        /* Sidebar styles */
+        .sidebar-fixed {
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            overflow-y: auto;
+            background-color: #252F3E;
+            color: white;
+        }
+       
+        /* Sidebar link styles */
+        .sidebar-fixed a {
+            color: white;
+        }
+       
+        /* Sidebar hover styles */
+        .sidebar-fixed a:hover {
+            background-color: #FF9900;
+        }
+
+        /* Mobile Navigation Button */
+        #mobileMenuButton i {
+            color: #252F3E;
+        }
+       
+        /* Toast notifications */
+        .toast {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 100;
+            background-color: white;
+            color: #252F3E;
+            animation: slideIn 0.3s ease-in-out;
+        }
+       
+        /* Button styling */
+        button {
+            background-color: #FF9900;
+            color: white;
+        }
+
+        /* Footer Styling */
+        footer {
+            background-color: #252F3E;
+            color: white;
+        }
+    </style>
+   
+    
+<style>
+    .toc-link {
+        transition: all 0.2s ease-in-out;
+    }
+
+    .toc-link:hover {
+        padding-left: 0.5rem;
+    }
+
+    @media print {
+        .no-print {
+            display: none !important;
+        }
+    }
+
+    /* Custom styles for content */
+    .markdown-content {
+        color: inherit;
+    }
+
+    .markdown-content [style*="color"] {
+        color: inherit !important;
+    }
+
+    .markdown-content span[style*="color:"] {
+        color: attr(style color) !important;
+    }
+
+    /* Sidebar transition styles */
+    .sidebar-transition {
+        transition: width 0.3s ease-in-out;
+        margin-right: 0.5rem;
+    }
+
+    .content-transition {
+        transition: all 0.3s ease-in-out;
+    }
+    
+    /* Make sure colored text remains visible */
+    [style*="color:"] {
+        color: var(--custom-color, inherit) !important;
+    }
+
+    /* Preserve background colors */
+    [style*="background-color:"] {
+        background-color: var(--custom-bg-color, inherit) !important;
+    }
+
+    /* Enhanced layout styles */
+    #mainContent {
+        transition: all 0.3s ease-in-out;
+        width: calc(100% - 16rem);
+    }
+
+    #mainContent.expanded {
+        width: calc(100% - 1.5rem);
+    }
+
+    .section-container {
+        max-width: none !important;
+        width: 100% !important;
+    }
+
+    .prose {
+        max-width: none !important;
+    }
+
+    .section {
+        padding: 1rem !important;
+    }
+
+    @media (min-width: 1024px) {
+        .section-content {
+            width: 100% !important;
+            max-width: none !important;
+        }
+    }
+
+    .content-wrapper {
+        width: 100%;
+        transition: width 0.3s ease-in-out;
+    }
+
+    .toc-expanded .content-wrapper {
+        width: calc(100% - 16rem);
+    }
+
+    .toc-collapsed .content-wrapper {
+        width: calc(100% - 1.5rem);
+    }
+    
+    /* Section spacing and width optimization */
+    .section-container {
+        margin: 0.5rem 0;
+    }
+
+    .section-content {
+        width: 100%;
+    }
+
+    /* Content container optimization */
+    .content-max-width {
+        max-width: none;
+        width: 100%;
+        margin: 0;
+        padding: 0 1rem;
+    }
+</style>
+
+<style>
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes fadeOut {
+        from { opacity: 1; transform: translateY(0); }
+        to { opacity: 0; transform: translateY(10px); }
+    }
+    
+    .animate-fade-in {
+        animation: fadeIn 0.3s ease-out forwards;
+    }
+    
+    .animate-fade-out {
+        animation: fadeOut 0.3s ease-out forwards;
+    }
+</style></head>
+
+<body class="bg-gray-100 toc-expanded" sapling-installed="true">
+    <!-- Mobile Navigation Toggle -->
+    <div class="lg:hidden">
+        <button id="mobileMenuButton" class="p-4 focus:outline-none">
+            <i class="fas fa-bars text-2xl"></i>
+        </button>
+    </div>
+
+    <!-- Sidebar Navigation -->
+    <nav class="w-64 sidebar-fixed hidden lg:block">
+        <div class="p-6">
+            <div class="flex items-center space-x-3 cursor-not-allowed opacity-50">
+                <i class="fas fa-book text-2xl"></i>
+                <span class="text-xl font-bold">Documentation</span>
+            </div>
+        </div>
+       
+        <div class="px-4 py-2">
+            <div class="relative">
+                <input type="text" id="searchInput" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Search pages...">
+                <i class="fas fa-search absolute right-3 top-3 text-gray-400"></i>
+            </div>
+        </div>
+       
+        <div class="mt-4">
+            <div class="px-4 py-2 text-sm font-medium uppercase">
+                Navigation
+            </div>
+            <ul class="mt-2">
+                <li>
+                    <a href="index.html" class="px-6 py-2 flex items-center space-x-3 hover:bg-gray-100">
+                        <i class="fas fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="admin.html" class="px-6 py-2 flex items-center space-x-3 hover:bg-gray-100">
+                        <i class="fas fa-cog"></i>
+                        <span>Admin</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="lg:ml-64">
+        <div class="container mx-auto px-4 py-8">
+            <!-- Flash Messages -->
+            
+                
+            
+
+            <!-- Page Content -->
+            
+<div class="flex min-h-screen w-full gap-0">
+    <!-- Collapsible Sidebar -->
+    <div id="tocSidebar" class="sidebar-transition bg-white shadow-md h-screen sticky top-0 overflow-y-auto" style="width: 16rem;">
+        <div class="relative p-4">
+            <!-- Toggle Button -->
+            <button id="toggleToc" class="absolute -right-3 top-4 bg-blue-500 text-white p-4 rounded-full shadow-md hover:bg-gray-50 z-10" onclick="toggleToc()">
+                <i id="toggleIcon" class="fas fa-chevron-left"></i>
+            </button>
+
+            <div id="tocContent">
+                <h2 class="text-lg font-semibold mb-4">Table of Contents</h2>
+                
+                    <a href="#section-22" class="toc-link block text-sm text-gray-600 hover:text-blue-600 py-1">
+                        Validate the deployment
+                    </a>
+                
+                    <a href="#section-23" class="toc-link block text-sm text-gray-600 hover:text-blue-600 py-1">
+                        Configuring RiverMeadow SaaS platform
+                    </a>
+                
+                    <a href="#section-24" class="toc-link block text-sm text-gray-600 hover:text-blue-600 py-1">
+                        Credentials for Source Servers
+                    </a>
+                
+                    <a href="#section-25" class="toc-link block text-sm text-gray-600 hover:text-blue-600 py-1">
+                        Add Source servers for migration to RM-SaaS
+                    </a>
+                
+                    <a href="#section-26" class="toc-link block text-sm text-gray-600 hover:text-blue-600 py-1">
+                        Migrate Source Servers to AWS
+                    </a>
+                
+
+                <div class="mt-6 pt-6 border-t">
+                    <h3 class="text-sm font-medium text-gray-500 mb-3">Page Actions</h3>
+                    <div class="space-y-2">
+                        <button onclick="window.print()" class="w-full flex items-center px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 rounded">
+                            <i class="fas fa-print mr-2"></i> Print Page
+                        </button>
+                        <button onclick="copyPageLink()" class="w-full flex items-center px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 rounded">
+                            <i class="fas fa-link mr-2"></i> Copy Link
+                        </button>
+                        
+                        <button class="w-full flex items-center px-4 py-2 text-sm text-gray-400 bg-gray-200 rounded cursor-not-allowed" disabled>
+                            <i class="fas fa-edit mr-2"></i> Edit Page
+                        </button>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Main Content Area -->
+    <div id="mainContent" class="flex-1 content-transition" style="width: calc(100% - 16rem);">
+        <div class="content-max-width">
+            <!-- Page Header -->
+            <div class="mb-4">
+                <div class="flex items-center justify-between mb-3">
+                    <h1 class="text-4xl font-bold text-gray-900">Migratapalooza : RiverMeadow Hackathon Scenario - Runbook</h1>
+                    <div class="lg:hidden relative">
+                        <button onclick="toggleMobileMenu()" class="text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-ellipsis-v text-xl"></i>
+                        </button>
+                        <div id="mobileMenu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
+                            <button onclick="window.print()" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                <i class="fas fa-print mr-2"></i> Print Page
+                            </button>
+                            <button onclick="copyPageLink()" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                <i class="fas fa-link mr-2"></i> Copy Link
+                            </button>
+                            
+                            <button class="w-full flex items-center px-4 py-2 text-sm text-gray-400 bg-gray-200 rounded cursor-not-allowed" disabled>
+                                <i class="fas fa-edit mr-2"></i> Edit Page
+                            </button>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center text-sm text-gray-500 space-x-4">
+                    <span>Updated November 18, 2024</span>
+                    <span>5 sections</span>
+                    
+                        <span>24 views</span>
+                    
+                </div>
+
+                
+                    <div class="mt-3 text-gray-600">
+                        This run book provides you guidance to execute 
+to the RiverMeadow scenario during the Migratapalooza event
+                    </div>
+                
+
+                
+            </div>
+
+            <!-- Table of Contents for Mobile -->
+            <div class="lg:hidden mb-6 no-print">
+                <h2 class="text-lg font-medium mb-3">Table of Contents</h2>
+                
+                    <a href="#section-22" class="block py-2 text-gray-600 hover:text-blue-600">
+                        Validate the deployment
+                    </a>
+                
+                    <a href="#section-23" class="block py-2 text-gray-600 hover:text-blue-600">
+                        Configuring RiverMeadow SaaS platform
+                    </a>
+                
+                    <a href="#section-24" class="block py-2 text-gray-600 hover:text-blue-600">
+                        Credentials for Source Servers
+                    </a>
+                
+                    <a href="#section-25" class="block py-2 text-gray-600 hover:text-blue-600">
+                        Add Source servers for migration to RM-SaaS
+                    </a>
+                
+                    <a href="#section-26" class="block py-2 text-gray-600 hover:text-blue-600">
+                        Migrate Source Servers to AWS
+                    </a>
+                
+            </div>
+
+            <!-- Sections Content -->
+            <div class="space-y-4">
+                
+                    <div id="section-22" class="section bg-white rounded-lg shadow-md overflow-hidden w-full">
+                        <div class="p-4">
+                            <div class="flex items-center justify-between cursor-pointer select-none" onclick="toggleSection('section-22')">
+                                <h2 class="text-2xl font-bold text-gray-900">Validate the deployment</h2>
+                                <i class="fas fa-chevron-down text-gray-500 transform transition-transform duration-200" id="icon-section-22"></i>
+                            </div>
+
+                            <div id="content-section-22" class="section-content mt-4 prose max-w-none markdown-content content-render" style="display: none; width: 1208px;">
+                                <ol>
+<li>Login to the AWS burner account and switch region to <strong>us-east-2</strong></li>
+<li>Select EC2 → and validate if 4 EC2 instances with the names similar 
+to the screenshot below are deployed and instance in running state<br><img src="RiverMeadow_files/20241115_062430_blobid0.png" alt=""></li>
+<li>Search for <strong>peering connections </strong>on the AWS console<strong>,</strong> select peering connection and make sure status as <strong>Active</strong><img src="RiverMeadow_files/20241115_062430_blobid1.png" alt=""></li>
+<li>Check the us-east-1 and us-east-2 route tables named “<strong>Source-RouteTable</strong>” and “<strong>Target-RiverMadeow-RouteTable</strong>” to make sure the routes <strong>172.31.0.0/20</strong> and <strong>172.41.0.0/20</strong> are added</li>
+<li>Go to IAM → Select Roles → search for RiverMeadow</li>
+<li>Make sure the IAM roles are created and available<img src="RiverMeadow_files/20241115_062430_blobid2.png" alt=""></li>
+</ol>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div id="section-23" class="section bg-white rounded-lg shadow-md overflow-hidden w-full">
+                        <div class="p-4">
+                            <div class="flex items-center justify-between cursor-pointer select-none" onclick="toggleSection('section-23')">
+                                <h2 class="text-2xl font-bold text-gray-900">Configuring RiverMeadow SaaS platform</h2>
+                                <i class="fas fa-chevron-down text-gray-500 transform transition-transform duration-200" id="icon-section-23"></i>
+                            </div>
+
+                            <div id="content-section-23" class="section-content mt-4 prose max-w-none markdown-content content-render" style="display: none; width: 1208px;">
+                                <ol>
+<li>Log into the RiverMeadow <a href="https://migrate.rivermeadow.com/" target="_blank" rel="noopener">link</a></li>
+<li>Select Manage → Migration Appliances<img src="RiverMeadow_files/20241115_062808_blobid0.png" alt=""></li>
+<li>Currently there will be no migration appliance available. Select “<strong>Add new migration appliance</strong>” on left side and select cloud type as → AWS<img src="RiverMeadow_files/20241115_062808_blobid1.png" alt=""><img src="RiverMeadow_files/20241115_062808_blobid2.png" alt=""></li>
+<li>Go to the AWS Console, → IAM → Roles → Search RiverMeadow → Click on the role → Copy the ARN<img src="RiverMeadow_files/20241115_062808_blobid3.png" alt=""></li>
+<li>On the RiverMeadow console, Provide any name → Paste the <strong>ARN</strong>
+ for the role copied from the RiverMeadow console and test connection. 
+Keep the “Setup Migration Appliance for this target cloud” option 
+selected. Click on add migration appliance <strong>(Note : There are two
+ groups accessing the same RiverMeadow project for this Hackathon. Hence
+ to avoid confusion, please make sure you name you appliance with your 
+group identification. Refer to screen shot below)</strong><br><br><br><img src="RiverMeadow_files/20241115_062808_blobid4.png" alt=""></li>
+<li>In the Next screen, Select Region → <strong>us-east-1</strong> (US 
+East (N.Virginia)) → VPC to Target-RiverMeadowVPC → Subnet to 
+TargetRiverMeadowSubnet → Enable Public Ip option as "Use Subnet 
+Settings" and provide an instance name of your choice as per image below
+ and select Initiate Migration appliance checks<br><br><img src="RiverMeadow_files/20241115_062808_blobid5.png" alt=""></li>
+<li>Wait for the appliance to be deployed<img src="RiverMeadow_files/20241115_062809_blobid6.png" alt=""><img src="RiverMeadow_files/20241115_062809_blobid7.png" alt=""></li>
+<li>Wait for the “<strong>Appliance Readiness Status</strong>” to be shown as “<strong>Ready</strong>” (refresh the page if status is not updated automatically in 3-5 minutes)</li>
+</ol>
+<p><br><img src="RiverMeadow_files/20241115_062809_blobid8.png" alt=""><br><span style=""><strong>IMPORTANT : DO NOT MISS THIS STEP and EXECUTE IMMEDIATELY ONCE THE SECURITY GROUP IS CREATED</strong></span><br><br><strong>As
+ RiverMeadow migration appliance is deployed to the AWS Burner account, 
+it automatically creates a security group with name similar to 
+“RM-CA-vpc-xxxxxx” and with inbound rules as given below with source as 
+0.0.0.0/0 ( 4 rules - Time exceeded, Destination unreachable, Echo 
+request &amp; Echo reply). The burner account info security policy does 
+not allow source as 0.0.0.0/0 which will lead to burner account being 
+auto closed.</strong><br><br><img src="RiverMeadow_files/20241115_062809_blobid9.png" alt="">To
+ avoid this issue, please modify the inbound rules with source as 
+0.0.0.0/0 and replace with your source vpc subnet (us-east-2) CIDR, 
+which is 172.31.0.0/20&nbsp;<br><br>Refer the below image for security group rules post changes<br><br><img src="RiverMeadow_files/20241115_062809_blobid10.png" alt=""></p>
+<p><strong>DO NOT SKIP THE ABOVE STEP AND TO BE DONE IMMEDIATELY AFTER 
+THE RiverMeadow APPLIANCE IS DEPLOYED and CORRESPONDING SECURITY GROUP 
+IS CREATED</strong></p>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div id="section-24" class="section bg-white rounded-lg shadow-md overflow-hidden w-full">
+                        <div class="p-4">
+                            <div class="flex items-center justify-between cursor-pointer select-none" onclick="toggleSection('section-24')">
+                                <h2 class="text-2xl font-bold text-gray-900">Credentials for Source Servers</h2>
+                                <i class="fas fa-chevron-down text-gray-500 transform transition-transform duration-200" id="icon-section-24"></i>
+                            </div>
+
+                            <div id="content-section-24" class="section-content mt-4 prose max-w-none markdown-content content-render" style="display: none; width: 1208px;">
+                                <p>Here are the credentials to the servers:<br><br>SQL2017<br>Username : ./Administrator<br>Password : CloudEndure_SQL_Server<br><br>Win2019Upgrade<br>Username : ./Administrator<br>Password : CloudEndure_IIS_Server<br><br>StorageResize<br>Username : ./Administrator<br>Password : CloudEndure_IIS_Server<br><br>RHEL8Upgrade<br>Username : ./Administrator<br>Password : CloudEndure_RHEL_Server<br>SSH Key : Download from <a href="https://amazon.awsapps.com/workdocs-amazon/index.html#/document/f18aef1a18e95f56a6f07a2f31c168fe5a5e3338f51dd130974b1a0d38296964" target="_blank" rel="noopener">here</a> and save the file to a location<br><br>Use the command to connect <br><br>chmod 400 "RHEL8-Upgrade.pem"<br>ssh -i "RHEL8-Upgrade.pem" <a href="mailto:ec2-user@ec2-18-222-20-73.us-east-2.compute.amazonaws.com">ec2-user@&lt;provide the public DNS name of the server&gt;</a><br><br><strong>Please add the rules in source-security group to allow access from your local laptop/network. </strong></p>
+<p><strong>DO NOT add 0.0.0.0/0 and the account will be terminated immediately&nbsp;</strong></p>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div id="section-25" class="section bg-white rounded-lg shadow-md overflow-hidden w-full">
+                        <div class="p-4">
+                            <div class="flex items-center justify-between cursor-pointer select-none" onclick="toggleSection('section-25')">
+                                <h2 class="text-2xl font-bold text-gray-900">Add Source servers for migration to RM-SaaS</h2>
+                                <i class="fas fa-chevron-down text-gray-500 transform transition-transform duration-200" id="icon-section-25"></i>
+                            </div>
+
+                            <div id="content-section-25" class="section-content mt-4 prose max-w-none markdown-content content-render" style="display: none; width: 1208px;">
+                                <ol>
+<li>Login to the RM portal using the&nbsp;<a href="https://migrate.rivermeadow.com/" target="_blank" rel="noopener">link</a></li>
+<li>Select<strong> Manage → Source Inventory. </strong>The Source Inventory page appears.<img src="RiverMeadow_files/20241115_063755_blobid0.png" alt=""></li>
+<li>Click the <strong>Add Source</strong> button. The Add a Source form appears. Make sure the source has <strong>preinstalled agent option is selected</strong>. Use the existing move group with your group name. Click on add source (Note :&nbsp;<strong>There
+ are multiple groups accessing the same project for this Hackathon. 
+Hence to avoid confusion, please make sure you move the source servers 
+you add to the correct move group with your group name. If none exists, 
+please create new using your group name)</strong><br><img src="RiverMeadow_files/20241115_063755_blobid2.png" alt=""></li>
+<li>Add all the four source servers part of the migration.&nbsp;<img src="RiverMeadow_files/20241115_063755_blobid1.png" alt=""></li>
+<li>Once added the source servers, you can begin the migration process from this page by selecting your source(s) and clicking the "<strong>Inspect Sources" </strong>&nbsp;option first. This step will capture the metadata details of the server.<br><img src="RiverMeadow_files/20241115_063755_blobid3.png" alt=""><br><br><strong><u>A test of your RiverMeadow knowledge</u></strong><br><br>The Pre-flight information to collect the source server metadata might <strong>fail</strong>
+ on one of the windows servers. Please review the steps you have done 
+before and check what could be the cause of the pre-flight inspection 
+failure (Its NOT an AWS Configuration issue, so please read the error 
+message, check services &amp; ports&nbsp; Network port communication 
+diagram provided below)<br><br><img src="RiverMeadow_files/20241115_063755_blobid5.png" alt=""></li>
+<li><img src="RiverMeadow_files/20241115_063849_blobid6.png" alt="" width="576" height="974" style=""></li>
+<li>Once the issues is fixed with the Pre-flight inspection, the status should be as below</li>
+<li>Check the status of <strong>Pre-flight inspection status </strong>to be <strong>ready</strong> as shown in image below</li>
+</ol>
+<p><img src="RiverMeadow_files/20241115_063913_blobid7.png" alt=""></p>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div id="section-26" class="section bg-white rounded-lg shadow-md overflow-hidden w-full">
+                        <div class="p-4">
+                            <div class="flex items-center justify-between cursor-pointer select-none" onclick="toggleSection('section-26')">
+                                <h2 class="text-2xl font-bold text-gray-900">Migrate Source Servers to AWS</h2>
+                                <i class="fas fa-chevron-down text-gray-500 transform transition-transform duration-200" id="icon-section-26"></i>
+                            </div>
+
+                            <div id="content-section-26" class="section-content mt-4 prose max-w-none markdown-content content-render" style="display: none; width: 1208px;">
+                                <ol>
+<li>Login to the RM SaaS using the <a href="https://migrate.rivermeadow.com/">link</a> and select “<strong>Start Migration</strong>” from the “<strong>Migrate option</strong>”<img src="RiverMeadow_files/20241115_065131_blobid0.png" alt=""></li>
+<li>Select <strong>configure Migration</strong><img src="RiverMeadow_files/20241115_065131_blobid1.png" alt=""></li>
+<li>Select <strong>Workload Migration</strong> from the dropdown and <strong>check migration readiness </strong><img src="RiverMeadow_files/20241115_065131_blobid2.png" alt=""></li>
+<li>Wait for all the checks to be completed and <strong>status</strong> as <strong>ready</strong>. Once ready, select Create <strong>Migration Profile</strong><img src="RiverMeadow_files/20241115_065131_blobid3.png" alt=""></li>
+<li>Specify migration details, including configuration details for your Target Instances (server clones).<img src="RiverMeadow_files/20241115_065131_blobid4.png" alt=""></li>
+<li style=""><strong>REVIEW AND APPLY THE BELOW SECTIONS BASED SOURCE SERVERS BASED ON THE SCENARIOS GIVEN IN HACKATHON</strong></li>
+<li>Select the <strong>Storage RightSizing</strong> option under <strong>“Optimisation Settings” </strong>if you intent to resize the storage<br><br><img src="RiverMeadow_files/20241115_065131_blobid5.png" alt=""></li>
+<li>Choose the “<strong>Modernization Settings</strong>” if you intent 
+to Modernize/Upgrade Operating systems. For Redhat servers or Windows 
+servers, you can choose a OS type under Modernization settings to 
+upgrade your operating system to latest version. For servers with SQL 
+servers installed, below steps can be followed for SQL upgrade<br><br><img src="RiverMeadow_files/20241115_065132_blobid6.png" alt=""><img src="RiverMeadow_files/20241115_065132_blobid9.png" alt=""><img src="RiverMeadow_files/20241115_065132_blobid10.png" alt=""></li>
+<li>Choose the “<strong>Security Settings”</strong> if you intent to configure the target server to specific security groups<br><br><img src="RiverMeadow_files/20241115_065132_blobid7.png" alt=""></li>
+<li>Choose the&nbsp;<strong>advanced options (as applicable to your scenario)</strong> under the advanced settings<br><br><img src="RiverMeadow_files/20241115_065132_blobid8.png" alt=""><br><br></li>
+<li>Initiate pre-migration checks<img src="RiverMeadow_files/20241115_065133_blobid12.png" alt="" width="945" height="487"></li>
+<li>Once the migration is started, you can view and monitor the progress<img src="RiverMeadow_files/20241115_065133_blobid13.png" alt=""></li>
+<li>You will receive an email on your amazon email with a successful 
+migration completion message. Also, please login to the target migrated 
+servers using provided credential for validation</li>
+</ol>
+                            </div>
+                        </div>
+                    </div>
+                
+            </div>
+
+            <div class="flex items-center justify-between text-sm text-gray-500 mt-6">
+                <div>
+                    Last updated: 2024-11-18 09:00
+                </div>
+                <a href="#" class="text-gray-600 hover:text-gray-900">Back to top</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="mt-8 lg:ml-64">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex justify-between items-center">
+                <div>
+                    © 2024 Dynamic Documentation. All rights reserved.
+                </div>
+                <div class="flex space-x-4">
+                    <a href="#" class="hover:text-gray-200">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="#" class="hover:text-gray-200">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Core JavaScript -->
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobileMenuButton').addEventListener('click', function() {
+            const sidebar = document.querySelector('.sidebar-fixed');
+            sidebar.classList.toggle('active');
+        });
+
+        // Auto-hide flash messages
+        document.addEventListener('DOMContentLoaded', function() {
+            const toasts = document.querySelectorAll('.toast');
+            toasts.forEach(toast => {
+                setTimeout(() => {
+                    toast.style.animation = 'slideOut 0.3s ease-in-out forwards';
+                    setTimeout(() => toast.remove(), 300);
+                }, 5000);
+            });
+        });
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            console.log('Searching for:', searchTerm);
+        });
+    </script>
+
+    
+<script>
+// Initialize variables
+let tocCollapsed = false;
+const defaultSidebarWidth = '16rem';
+const collapsedSidebarWidth = '1.5rem';
+
+// Enhanced Toggle Table of Contents sidebar
+function toggleToc() {
+    const sidebar = document.getElementById('tocSidebar');
+    const mainContent = document.getElementById('mainContent');
+    const toggleIcon = document.getElementById('toggleIcon');
+    const tocContent = document.getElementById('tocContent');
+    
+    if (tocCollapsed) {
+        // Expand
+        sidebar.style.width = defaultSidebarWidth;
+        mainContent.style.width = 'calc(100% - 16rem)';
+        mainContent.style.marginLeft = '0';
+        toggleIcon.classList.remove('fa-chevron-right');
+        toggleIcon.classList.add('fa-chevron-left');
+        tocContent.style.opacity = '1';
+        tocContent.style.display = 'block';
+        document.body.classList.remove('toc-collapsed');
+        document.body.classList.add('toc-expanded');
+    } else {
+        // Collapse
+        sidebar.style.width = collapsedSidebarWidth;
+        mainContent.style.width = 'calc(100% - 1.5rem)';
+        mainContent.style.marginLeft = '0';
+        toggleIcon.classList.remove('fa-chevron-left');
+        toggleIcon.classList.add('fa-chevron-right');
+        tocContent.style.opacity = '0';
+        tocContent.style.display = 'none';
+        document.body.classList.remove('toc-expanded');
+        document.body.classList.add('toc-collapsed');
+    }
+    
+    // Force layout recalculation
+    window.dispatchEvent(new Event('resize'));
+    
+    tocCollapsed = !tocCollapsed;
+    localStorage.setItem('tocCollapsed', tocCollapsed);
+    
+    // Adjust section widths
+    adjustSectionWidths();
+}
+
+// Function to adjust section widths
+function adjustSectionWidths() {
+    const sections = document.querySelectorAll('.section-content');
+    const mainContent = document.getElementById('mainContent');
+    const availableWidth = mainContent.offsetWidth - 32; // Account for padding
+    
+    sections.forEach(section => {
+        section.style.width = `${availableWidth}px`;
+    });
+}
+
+// Toggle mobile menu with improved handling
+function toggleMobileMenu() {
+    const menu = document.getElementById('mobileMenu');
+    menu.classList.toggle('hidden');
+}
+
+// Enhanced copy page link functionality
+function copyPageLink() {
+    const url = window.location.href;
+    navigator.clipboard.writeText(url).then(() => {
+        // Create and show toast notification
+        const toast = document.createElement('div');
+        toast.className = 'fixed bottom-4 right-4 bg-black bg-opacity-75 text-white px-4 py-2 rounded-lg z-50 animate-fade-in';
+        toast.textContent = 'Link copied to clipboard!';
+        document.body.appendChild(toast);
+        
+        // Remove toast after 2 seconds
+        setTimeout(() => {
+            toast.classList.add('animate-fade-out');
+            setTimeout(() => toast.remove(), 300);
+        }, 2000);
+    }).catch(err => {
+        console.error('Failed to copy:', err);
+    });
+}
+
+// Enhanced section toggle with animation
+function toggleSection(sectionId) {
+    const content = document.getElementById('content-' + sectionId);
+    const icon = document.getElementById('icon-' + sectionId);
+    
+    if (content.style.display === 'none') {
+        content.style.display = 'block';
+        icon.style.transform = 'rotate(0deg)';
+        // Ensure proper width after opening
+        setTimeout(() => adjustSectionWidths(), 50);
+    } else {
+        content.style.display = 'none';
+        icon.style.transform = 'rotate(-90deg)';
+    }
+}
+
+// Enhanced active section highlighting
+function highlightActiveTocSection() {
+    const sections = document.querySelectorAll('.section');
+    const tocLinks = document.querySelectorAll('.toc-link');
+    
+    let currentSectionId = '';
+    const offset = 100;
+    
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        if (window.pageYOffset >= sectionTop - offset) {
+            currentSectionId = section.getAttribute('id');
+        }
+    });
+    
+    tocLinks.forEach(link => {
+        link.classList.remove('text-blue-600', 'font-medium');
+        if (link.getAttribute('href').slice(1) === currentSectionId) {
+            link.classList.add('text-blue-600', 'font-medium');
+        }
+    });
+}
+
+// Enhanced color preservation
+function preserveColors() {
+    document.querySelectorAll('[style*="color:"]').forEach(element => {
+        const computedStyle = window.getComputedStyle(element);
+        element.style.setProperty('--custom-color', computedStyle.color);
+    });
+
+    document.querySelectorAll('[style*="background-color:"]').forEach(element => {
+        const computedStyle = window.getComputedStyle(element);
+        element.style.setProperty('--custom-bg-color', computedStyle.backgroundColor);
+    });
+}
+
+// Initialize layout and handle window resize
+function initializeLayout() {
+    const mainContent = document.getElementById('mainContent');
+    
+    // Set initial width based on TOC state
+    if (tocCollapsed) {
+        mainContent.style.width = 'calc(100% - 1.5rem)';
+        document.body.classList.add('toc-collapsed');
+    } else {
+        mainContent.style.width = 'calc(100% - 16rem)';
+        document.body.classList.add('toc-expanded');
+    }
+    
+    // Adjust section widths
+    adjustSectionWidths();
+}
+
+// Enhanced initialization when document is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Restore TOC state from localStorage
+    const savedTocState = localStorage.getItem('tocCollapsed');
+    if (savedTocState === 'true') {
+        toggleToc();
+    }
+    
+    // Initialize layout
+    initializeLayout();
+    
+    // Setup scroll event listener for TOC highlighting
+    window.addEventListener('scroll', highlightActiveTocSection);
+    
+    // Initial TOC highlight
+    highlightActiveTocSection();
+    
+    // Setup color preservation
+    preserveColors();
+    
+    // Handle window resize
+    window.addEventListener('resize', adjustSectionWidths);
+    
+    // Hide mobile menu when clicking outside
+    document.addEventListener('click', function(event) {
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuButton = event.target.closest('[onclick="toggleMobileMenu()"]');
+        
+        if (!menuButton && !mobileMenu.contains(event.target)) {
+            mobileMenu.classList.add('hidden');
+        }
+    });
+    
+    // Handle smooth scrolling for TOC links
+    document.querySelectorAll('.toc-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+            
+            if (targetElement) {
+                targetElement.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+                
+                // Update URL without jumping
+                history.pushState(null, null, targetId);
+            }
+        });
+    });
+});
+
+// Handle CSS animations
+const styleSheet = document.createElement('style');
+styleSheet.textContent = `
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes fadeOut {
+        from { opacity: 1; transform: translateY(0); }
+        to { opacity: 0; transform: translateY(10px); }
+    }
+    
+    .animate-fade-in {
+        animation: fadeIn 0.3s ease-out forwards;
+    }
+    
+    .animate-fade-out {
+        animation: fadeOut 0.3s ease-out forwards;
+    }
+`;
+document.head.appendChild(styleSheet);
+</script>
+
+
+</body></html>
